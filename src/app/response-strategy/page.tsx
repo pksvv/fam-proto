@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PortalShell } from "@/components/PortalShell";
 import { Card, HumanReviewBanner, PrimaryButton, SectionHeading, StatusBadge } from "@/components/ui";
 import { documentRequest, responseStrategy } from "@/data/mockData";
@@ -71,10 +72,9 @@ export default function ResponseStrategyPage() {
               <ul className="mt-3 space-y-2 text-sm text-slate-600">
                 {responseStrategy.gaps.map((gap) => <li key={gap}>• {gap}</li>)}
               </ul>
-              <span className="mt-5 inline-block">
+              <Link className="mt-5 inline-block" href="/task-strategy">
                 <PrimaryButton>Save Strategy</PrimaryButton>
-              </span>
-              <p className="mt-3 text-xs text-slate-500">Next: reviewer-approved child task proposal.</p>
+              </Link>
             </Card>
           </div>
         </div>

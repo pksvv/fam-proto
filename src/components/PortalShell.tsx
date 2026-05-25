@@ -6,12 +6,12 @@ import { CopilotPanel } from "./CopilotPanel";
 
 const railItems = [
   { icon: "+", label: "New audit", href: "/" },
-  { icon: "A", label: "My audits", href: "/" },
+  { icon: "A", label: "My audits", href: "/audits/PA-2025-IRS-104" },
   { icon: "D", label: "Document requests", href: "/intake" },
   { icon: "T", label: "Tracker", href: "/" },
   { icon: "?", label: "Help", href: "/" },
 ];
-const availableSteps = new Set(["home", "intake", "audit-review", "document-review", "strategy"]);
+const availableSteps = new Set(["home", "intake", "audit-review", "document-review", "strategy", "tasks", "audit-detail"]);
 
 export function PortalShell({
   children,

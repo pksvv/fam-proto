@@ -184,6 +184,11 @@ export const tasks: AuditTask[] = [
   },
 ];
 
+export const progressingTasks: AuditTask[] = tasks.map((task, index) => ({
+  ...task,
+  status: index < 2 ? "Closed" : index < 4 ? "In Progress" : "Pending Review",
+}));
+
 export const evidenceDocuments: EvidenceDocument[] = [
   {
     id: "EV-101",
@@ -324,6 +329,47 @@ export const copilotMessages: Record<string, CopilotMessage[]> = {
       state: "review",
     },
   ],
+  tasks: [
+    {
+      agent: "Response Strategy Agent",
+      text: "Response strategy saved after reviewer confirmation.",
+      state: "complete",
+    },
+    {
+      agent: "Task Strategy Agent",
+      text: "Task strategy agent is generating recommended tasks.",
+      state: "active",
+    },
+    {
+      agent: "Task Strategy Agent",
+      text: "Five child tasks are recommended. Review owners, due dates, dependencies, and rationale before creation.",
+      state: "review",
+    },
+  ],
+  auditDetail: [
+    {
+      agent: "Task Strategy Agent",
+      text: "Parent audit, IDR, and five approved tasks were generated successfully.",
+      state: "complete",
+    },
+    {
+      agent: "Evidence Packaging Agent",
+      text: "Task responses remain under human ownership until each work item is closed.",
+      state: "info",
+    },
+  ],
+  documentDetail: [
+    {
+      agent: "Task Strategy Agent",
+      text: "This IDR now has five traceable supporting tasks.",
+      state: "complete",
+    },
+    {
+      agent: "Evidence Packaging Agent",
+      text: "Closed task outputs can be selected for response packaging after reviewer sign-off.",
+      state: "info",
+    },
+  ],
 };
 
 export const agentEvents: Record<string, AgentEvent[]> = {
@@ -338,4 +384,7 @@ export const agentEvents: Record<string, AgentEvent[]> = {
     { agent: "IDR Intake Agent", status: "Hydrated; review needed", confidence: 92 },
   ],
   strategy: [{ agent: "Response Strategy Agent", status: "Review needed", confidence: 88 }],
+  tasks: [{ agent: "Task Strategy Agent", status: "Human approval needed", confidence: 92 }],
+  auditDetail: [{ agent: "Audit Context Agent", status: "Records generated", confidence: 100 }],
+  documentDetail: [{ agent: "Evidence Packaging Agent", status: "Monitoring completion" }],
 };
