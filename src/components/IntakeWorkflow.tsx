@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { PrimaryButton, SecondaryButton } from "./ui";
 
 const stages = [
@@ -43,9 +44,9 @@ export function IntakeWorkflow() {
           <p className="text-sm font-medium text-brand">
             New Audit selected. A parent audit request can now be reviewed before creation.
           </p>
-          <span className="rounded-lg border border-blue-200 bg-white px-4 py-2.5 text-sm font-semibold text-brand">
-            Next: Parent Audit Review
-          </span>
+          <Link href="/review/audit">
+            <PrimaryButton>Next step: Review Parent Audit</PrimaryButton>
+          </Link>
         </div>
       ) : null}
       {selected === "existing" ? (

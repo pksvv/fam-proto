@@ -276,7 +276,51 @@ export const copilotMessages: Record<string, CopilotMessage[]> = {
   auditReview: [
     {
       agent: "Audit Context Agent",
+      text: "I extracted these fields from the IDR.",
+      state: "complete",
+    },
+    {
+      agent: "Audit Context Agent",
       text: "Parent audit request draft is ready for review.",
+      state: "review",
+    },
+    {
+      agent: "Audit Context Agent",
+      text: "Please review and correct anything incorrect before creating the parent audit request.",
+      state: "review",
+    },
+  ],
+  documentReview: [
+    {
+      agent: "Audit Context Agent",
+      text: "Parent audit request created after human approval.",
+      state: "complete",
+    },
+    {
+      agent: "IDR Intake Agent",
+      text: "Document request fields have been hydrated from the IDR.",
+      state: "review",
+    },
+    {
+      agent: "IDR Intake Agent",
+      text: "Please validate evidence requirements and ownership before creation.",
+      state: "review",
+    },
+  ],
+  strategy: [
+    {
+      agent: "Response Strategy Agent",
+      text: "Document request created after human approval.",
+      state: "complete",
+    },
+    {
+      agent: "Response Strategy Agent",
+      text: "Response strategy is being created using historical audit patterns.",
+      state: "active",
+    },
+    {
+      agent: "Response Strategy Agent",
+      text: "Recommendation and rationale are ready for reviewer validation.",
       state: "review",
     },
   ],
@@ -288,4 +332,10 @@ export const agentEvents: Record<string, AgentEvent[]> = {
     { agent: "OCR Extraction Agent", status: "Complete", confidence: 98 },
     { agent: "Audit Context Agent", status: "Human review needed", confidence: 93 },
   ],
+  auditReview: [{ agent: "Audit Context Agent", status: "Human review needed", confidence: 93 }],
+  documentReview: [
+    { agent: "Audit Context Agent", status: "Parent created", confidence: 100 },
+    { agent: "IDR Intake Agent", status: "Hydrated; review needed", confidence: 92 },
+  ],
+  strategy: [{ agent: "Response Strategy Agent", status: "Review needed", confidence: 88 }],
 };

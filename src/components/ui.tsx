@@ -79,3 +79,29 @@ export function SecondaryButton({ children }: { children: ReactNode }) {
   );
 }
 
+export function Field({
+  label,
+  value,
+  attention = false,
+}: {
+  label: string;
+  value: string;
+  attention?: boolean;
+}) {
+  return (
+    <div className={`rounded-xl border p-3 ${attention ? "border-amber-200 bg-amber-50" : "border-slate-200 bg-white"}`}>
+      <dt className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-500">{label}</dt>
+      <dd className="mt-2 text-sm font-medium text-slate-900">{value}</dd>
+      {attention ? <p className="mt-2 text-xs font-semibold text-amber-700">Human confirmation needed</p> : null}
+    </div>
+  );
+}
+
+export function HumanReviewBanner({ children }: { children: ReactNode }) {
+  return (
+    <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
+      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-amber-800">Human-in-the-loop review</p>
+      <p className="mt-2 text-sm leading-6 text-slate-700">{children}</p>
+    </div>
+  );
+}

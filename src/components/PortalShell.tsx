@@ -11,7 +11,7 @@ const railItems = [
   { icon: "T", label: "Tracker", href: "/" },
   { icon: "?", label: "Help", href: "/" },
 ];
-const availableSteps = new Set(["home", "intake"]);
+const availableSteps = new Set(["home", "intake", "audit-review", "document-review", "strategy"]);
 
 export function PortalShell({
   children,
