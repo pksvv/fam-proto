@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { demoFlow } from "@/data/demoFlow";
 import { agentEvents, copilotMessages } from "@/data/mockData";
 import { CopilotPanel } from "./CopilotPanel";
 
@@ -11,11 +10,9 @@ const railItems = [
   { icon: "T", label: "Tracker", href: "/tracker" },
   { icon: "?", label: "Help", href: "/" },
 ];
-const availableSteps = new Set(["home", "intake", "audit-review", "document-review", "strategy", "tasks", "audit-detail", "response"]);
 
 export function PortalShell({
   children,
-  currentStep,
   copilotKey,
   copilotTitle,
 }: {
@@ -24,13 +21,12 @@ export function PortalShell({
   copilotKey: string;
   copilotTitle: string;
 }) {
-  const currentIndex = demoFlow.findIndex((step) => step.key === currentStep);
   const messages = copilotMessages[copilotKey] ?? copilotMessages.home;
   const events = agentEvents[copilotKey] ?? agentEvents.home;
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
-      <aside className="workbench-pattern hidden w-[74px] shrink-0 border-r border-slate-200 lg:flex lg:flex-col lg:items-center">
+      <aside className="workbench-pattern hidden w-[68px] shrink-0 border-r border-slate-200 lg:flex lg:flex-col lg:items-center">
         <Link className="my-5 text-lg font-bold tracking-[0.2em] text-slate-500" href="/" aria-label="Home">
           III
         </Link>
@@ -50,41 +46,19 @@ export function PortalShell({
         </nav>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="border-b border-slate-200 bg-white px-5 py-4 md:px-8">
+        <header className="workbench-pattern border-b border-slate-200 px-5 py-4 md:px-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">Audit management</p>
-              <p className="mt-1 text-sm text-slate-500">AI-enabled tax audit workbench prototype</p>
+              <p className="text-xl font-semibold text-brand">Audit management</p>
             </div>
-            <div className="rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-xs font-semibold text-brand">
-              Synthetic demo data only
+            <div className="flex items-center gap-3 text-sm font-semibold text-slate-700">
+              <span>R Kaus</span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-white">R</span>
             </div>
           </div>
         </header>
-        <div className="border-b border-slate-200 bg-white px-5 py-3 md:px-8">
-          <nav aria-label="Demo flow" className="flex items-center gap-2 overflow-x-auto">
-            <span className="mr-2 shrink-0 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
-              Demo flow
-            </span>
-            {demoFlow.map((step, index) => (
-              <span className="flex shrink-0 items-center gap-2" key={step.key}>
-                <span
-                  className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold ${
-                    index <= currentIndex ? "bg-brand text-white" : "bg-slate-100 text-slate-500"
-                  }`}
-                >
-                  {index + 1}
-                </span>
-                <span className={`text-xs ${step.key === currentStep ? "font-semibold text-brand" : "text-slate-500"}`}>
-                  {availableSteps.has(step.key) ? <Link href={step.href}>{step.label}</Link> : step.label}
-                </span>
-                {index < demoFlow.length - 1 ? <span className="mx-1 text-slate-300">/</span> : null}
-              </span>
-            ))}
-          </nav>
-        </div>
         <div className="flex min-h-0 flex-1">
-          <main className="workbench-canvas min-w-0 flex-1 p-5 md:p-8">{children}</main>
+          <main className="workbench-canvas min-w-0 flex-1 p-5 md:p-7">{children}</main>
           <CopilotPanel events={events} messages={messages} title={copilotTitle} />
         </div>
       </div>

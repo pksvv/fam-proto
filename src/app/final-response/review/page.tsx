@@ -1,68 +1,73 @@
+"use client";
+
 import { FinalApproval } from "@/components/FinalApproval";
 import { PortalShell } from "@/components/PortalShell";
-import { Card, HumanReviewBanner, SectionHeading, StatusBadge } from "@/components/ui";
-import { documentRequest, evidenceDocuments, finalResponsePackage } from "@/data/mockData";
+import { useWorkflow } from "@/components/WorkflowContext";
+import { evidenceDocuments, finalResponsePackage } from "@/data/mockData";
+import { StatusBadge } from "@/components/ui";
 
 export default function FinalResponseReviewPage() {
+  const { state } = useWorkflow();
+  const taskSelections = state.tasks.filter((task) => state.selectedTaskIds.includes(task.id));
+  const evidenceSelections = evidenceDocuments.filter((document) => state.selectedEvidenceIds.includes(document.id));
+
   return (
     <PortalShell copilotKey="finalReview" copilotTitle="Final response agent" currentStep="response">
-      <div className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-2xl bg-brand px-6 py-6 text-white">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="mx-auto max-w-[1320px] space-y-4">
+        <header className="workbench-panel px-7 py-5">
+          <p className="text-xs text-slate-500">Response Management &gt;&gt; Create DR Response &gt;&gt; Review Package</p>
+          <h1 className="mt-2 text-2xl font-semibold">Final Response Review Package</h1>
+        </header>
+        <section className="workbench-panel overflow-hidden">
+          <div className="workbench-blue-header flex items-start justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-100">Response creator agent output</p>
-              <h1 className="mt-2 text-2xl font-semibold">Final response review package</h1>
-              <p className="mt-2 text-sm text-blue-100">{documentRequest.id} / {documentRequest.question}</p>
+              <h2 className="text-xl">{state.documentRequest.title}</h2>
+              <p className="mt-3 text-sm text-blue-100">Document Request ID: {state.documentRequest.id}</p>
             </div>
-            <StatusBadge status="Pending Review" />
+            <StatusBadge status={state.submitted ? "Ready for Submission" : state.responseSubmittedForReview ? "Pending Review" : "Draft"} />
+          </div>
+          <div className="grid gap-6 p-7 xl:grid-cols-[1.2fr_0.8fr]">
+            <div className="min-w-0 space-y-5">
+              <section>
+                <h3 className="text-sm font-semibold">Final Response Text*</h3>
+                <div className="mt-3 rounded border border-slate-300 bg-white p-5 text-sm leading-7 text-slate-700">
+                  {finalResponsePackage.draft}
+                </div>
+              </section>
+              <section>
+                <h3 className="text-sm font-semibold">Response Lineage</h3>
+                <div className="mt-3 divide-y rounded border border-slate-200">
+                  {taskSelections.map((task) => (
+                    <div className="grid gap-2 p-4 text-sm md:grid-cols-[1fr_1.6fr]" key={task.id}>
+                      <p className="break-words font-semibold text-brand">{task.id} / {task.title}</p>
+                      <p className="break-words text-slate-600">{task.response || "Approved supporting response."}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </div>
+            <div className="min-w-0 space-y-5">
+              <section className="rounded border border-slate-200 p-4">
+                <h3 className="text-sm font-semibold">Attached Documents</h3>
+                <ul className="mt-3 space-y-2 break-all text-sm text-slate-600">
+                  {evidenceSelections.map((item) => <li key={item.id}>- {item.name}</li>)}
+                </ul>
+              </section>
+              <section className="rounded border border-slate-200 p-4">
+                <h3 className="text-sm font-semibold">Reviewer Instructions</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{state.instructions}</p>
+              </section>
+              <section className="rounded border border-slate-200 p-4">
+                <h3 className="text-sm font-semibold">Required Validation</h3>
+                <ul className="mt-3 space-y-2 text-sm text-slate-600">
+                  {finalResponsePackage.reviewerChecks.map((check) => <li key={check}>- {check}</li>)}
+                </ul>
+              </section>
+            </div>
           </div>
         </section>
-        <HumanReviewBanner>
-          This agent-prepared draft remains a proposal. The reviewer must check evidence, assumptions, and data lineage
-          before recording approval for submission.
-        </HumanReviewBanner>
-        <div className="grid gap-5 xl:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-5">
-            <Card>
-              <SectionHeading eyebrow="Final response draft" title="Regulator-ready narrative" />
-              <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-700">{finalResponsePackage.draft}</p>
-            </Card>
-            <Card>
-              <SectionHeading eyebrow="Data lineage and explainability" title="Traceability to selected evidence" />
-              <div className="mt-4 overflow-hidden rounded-xl border border-slate-200">
-                {finalResponsePackage.lineage.map((line) => (
-                  <div className="grid gap-2 border-b border-slate-100 p-4 text-sm last:border-0 md:grid-cols-[1.2fr_1fr_0.7fr]" key={line.source}>
-                    <p className="font-semibold text-slate-900">{line.source}</p>
-                    <p className="text-slate-600">{line.supports}</p>
-                    <p className="text-slate-500">Approved: {line.approvedBy}</p>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </div>
-          <div className="space-y-5">
-            <Card>
-              <SectionHeading eyebrow="Evidence summary" title="Attached documents" />
-              <p className="mt-3 text-sm leading-6 text-slate-600">{finalResponsePackage.evidenceSummary}</p>
-              <ul className="mt-4 space-y-2 text-sm text-slate-700">
-                {evidenceDocuments.map((document) => <li key={document.id}>✓ {document.name}</li>)}
-              </ul>
-            </Card>
-            <Card>
-              <SectionHeading eyebrow="Reviewer checks" title="Required validation" />
-              <ul className="mt-4 space-y-2 text-sm text-slate-700">
-                {finalResponsePackage.reviewerChecks.map((check) => <li key={check}>□ {check}</li>)}
-              </ul>
-              <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-slate-500">Open assumptions</p>
-              <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                {finalResponsePackage.assumptions.map((assumption) => <li key={assumption}>• {assumption}</li>)}
-              </ul>
-            </Card>
-          </div>
-        </div>
         <FinalApproval />
       </div>
     </PortalShell>
   );
 }
-

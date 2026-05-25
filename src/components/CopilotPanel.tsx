@@ -37,7 +37,7 @@ export function CopilotPanel({
   }
 
   return (
-    <aside className="hidden w-[356px] shrink-0 border-l border-slate-200 bg-white lg:flex lg:flex-col">
+    <aside className="hidden w-[296px] shrink-0 border-l border-slate-200 bg-white lg:flex lg:flex-col">
       <div className="border-b border-slate-200 px-5 py-5">
         <div className="flex items-center justify-between">
           <div>
@@ -97,4 +97,3 @@ export function CopilotPanel({
     </aside>
   );
 }
-

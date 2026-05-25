@@ -1,43 +1,53 @@
-import Link from "next/link";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { PortalShell } from "@/components/PortalShell";
-import { TaskList } from "@/components/TaskList";
-import { Card, PrimaryButton, SecondaryButton, SectionHeading, StatusBadge } from "@/components/ui";
-import { documentRequest, progressingTasks } from "@/data/mockData";
+import { SuccessMessage } from "@/components/WorkbenchControls";
+import { useWorkflow } from "@/components/WorkflowContext";
+import { StatusBadge } from "@/components/ui";
 
 export default function DocumentRequestDetailPage() {
+  const router = useRouter();
+  const { state, selectTask } = useWorkflow();
+
+  function openTask(id: string) {
+    selectTask(id);
+    router.push("/tasks/TA-201");
+  }
+
   return (
     <PortalShell copilotKey="documentDetail" copilotTitle="IDR task oversight" currentStep="audit-detail">
-      <div className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-2xl bg-brand px-6 py-6 text-white">
-          <div className="flex flex-wrap items-start justify-between gap-5">
+      <div className="mx-auto max-w-[1320px] space-y-4">
+        {state.tasksCreated ? <SuccessMessage>Tasks created successfully. Select a task to complete the response and supporting documents.</SuccessMessage> : null}
+        <header className="workbench-panel px-7 py-5">
+          <p className="text-xs text-slate-500">My Audits &gt;&gt; Audit {state.audit.id} &gt;&gt; Document Request {state.documentRequest.id}</p>
+          <h1 className="mt-2 text-2xl font-semibold">Document Request {state.documentRequest.id}</h1>
+        </header>
+        <section className="workbench-panel overflow-hidden">
+          <div className="workbench-blue-header flex items-start justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-100">Document request details</p>
-              <h1 className="mt-2 text-2xl font-semibold">{documentRequest.title}</h1>
-              <p className="mt-2 text-sm text-blue-100">{documentRequest.id} / Due {documentRequest.dueDate}</p>
+              <h2 className="text-xl">{state.documentRequest.title}</h2>
+              <p className="mt-3 text-sm text-blue-100">Document Request ID: {state.documentRequest.id}</p>
             </div>
-            <StatusBadge status="Ready for Response" />
+            <StatusBadge status={state.documentRequest.status} />
+          </div>
+          <div className="divide-y divide-slate-200 bg-white">
+            {state.tasks.map((task) => (
+              <div className="grid items-center gap-4 px-7 py-5 lg:grid-cols-[2.2fr_1fr_1fr_0.8fr]" key={task.id}>
+                <div>
+                  <button className="font-semibold text-brand underline" onClick={() => openTask(task.id)} type="button">{task.id}</button>
+                  <p className="mt-2 text-sm"><strong>Title:</strong> {task.title}</p>
+                </div>
+                <p className="text-sm"><strong>Due Date:</strong> {task.dueDate}</p>
+                <p className="text-sm"><strong>Assignee:</strong> {task.assignee}</p>
+                <StatusBadge status={task.status} />
+              </div>
+            ))}
+          </div>
+          <div className="border-t border-slate-200 px-7 py-5">
+            <button className="workbench-primary" onClick={() => openTask(state.tasks[0].id)} type="button">Open Task Response</button>
           </div>
         </section>
-        <Card>
-          <SectionHeading eyebrow="IDR question" title={documentRequest.question} />
-          <div className="mt-4 flex flex-wrap gap-6 text-sm text-slate-700">
-            <p><span className="text-slate-500">Owner:</span> {documentRequest.owner}</p>
-            <p><span className="text-slate-500">DR Reviewer:</span> {documentRequest.reviewer}</p>
-            <p><span className="text-slate-500">Tasks closed:</span> 2 of 5</p>
-          </div>
-        </Card>
-        <Card>
-          <SectionHeading eyebrow="Child tasks" title="Task response collection" aside={<StatusBadge status="Ready for Response" />} />
-          <TaskList linked tasks={progressingTasks} />
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/final-response">
-              <PrimaryButton>View Responses</PrimaryButton>
-            </Link>
-            <Link href="/tasks/TA-201">
-              <SecondaryButton>Create Task Response</SecondaryButton>
-            </Link>
-          </div>
-        </Card>
       </div>
     </PortalShell>
   );

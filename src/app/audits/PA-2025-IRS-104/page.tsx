@@ -1,59 +1,66 @@
+"use client";
+
 import Link from "next/link";
 import { PortalShell } from "@/components/PortalShell";
-import { TaskList } from "@/components/TaskList";
-import { Card, PrimaryButton, SecondaryButton, SectionHeading, StatusBadge } from "@/components/ui";
-import { auditRequest, documentRequest, progressingTasks } from "@/data/mockData";
+import { useWorkflow } from "@/components/WorkflowContext";
+import { StatusBadge } from "@/components/ui";
 
 export default function AuditRequestDetailPage() {
+  const { state } = useWorkflow();
+
   return (
     <PortalShell copilotKey="auditDetail" copilotTitle="Generated audit overview" currentStep="audit-detail">
-      <div className="mx-auto max-w-6xl space-y-5">
-        <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-sm font-medium text-emerald-800">
-          Parent audit request, document request, and five reviewer-approved tasks generated successfully.
-        </div>
-        <section className="rounded-2xl bg-brand px-6 py-6 text-white">
-          <div className="flex flex-wrap items-start justify-between gap-6">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-100">Audit request details</p>
-              <h1 className="mt-2 text-2xl font-semibold">{auditRequest.title}</h1>
-              <p className="mt-2 text-sm text-blue-100">{auditRequest.id} / {auditRequest.entity}</p>
+      <div className="mx-auto max-w-[1320px] space-y-4">
+        <header className="workbench-panel flex flex-wrap items-center justify-between gap-4 px-7 py-5">
+          <div>
+            <p className="text-xs text-slate-500">My Audits &gt;&gt; Audit {state.audit.id}</p>
+            <h1 className="mt-2 text-2xl font-semibold">Audit {state.audit.id}</h1>
+          </div>
+          <div className="flex gap-3">
+            <Link className="workbench-primary" href="/final-response">Response Management</Link>
+            <button className="workbench-primary" type="button">Audit Summary</button>
+          </div>
+        </header>
+        <section className="workbench-panel overflow-hidden">
+          <div className="workbench-blue-header">
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 className="text-2xl font-medium">{state.audit.title}</h2>
+                <p className="mt-4 text-base text-blue-100">Audit Request ID: {state.audit.id}</p>
+              </div>
+              <StatusBadge status={state.audit.status} />
             </div>
-            <div className="rounded-xl bg-white/10 p-4">
-              <p className="text-xs uppercase text-blue-100">Audit status</p>
-              <div className="mt-2"><StatusBadge status="In Progress" /></div>
+            <dl className="mx-auto mt-8 grid max-w-5xl gap-5 text-sm md:grid-cols-3">
+              <Summary label="Audit Type / Entity" value={`${state.audit.auditType} / ${state.audit.entity}`} />
+              <Summary label="Region / Market" value={`${state.audit.region} / ${state.audit.market}`} />
+              <Summary label="Audit Period" value={state.audit.period} />
+            </dl>
+          </div>
+          <div className="bg-white px-7 py-6">
+            <div className="grid items-center gap-5 md:grid-cols-[2fr_1fr_0.8fr]">
+              <div>
+                <Link className="font-semibold text-brand underline" href="/document-requests/IDR-2025-018">
+                  Document Request: {state.documentRequest.id}
+                </Link>
+                <p className="mt-3 text-sm"><strong>Title:</strong> {state.documentRequest.title}</p>
+              </div>
+              <p className="text-sm"><strong>Due Date:</strong> {state.documentRequest.dueDate}</p>
+              <StatusBadge status={state.documentRequest.status} />
             </div>
           </div>
-          <dl className="mt-6 grid gap-4 border-t border-white/20 pt-5 text-sm sm:grid-cols-4">
-            <div><dt className="text-blue-100">Audit type</dt><dd className="mt-1 font-semibold">{auditRequest.auditType}</dd></div>
-            <div><dt className="text-blue-100">Market</dt><dd className="mt-1 font-semibold">{auditRequest.market}</dd></div>
-            <div><dt className="text-blue-100">Audit period</dt><dd className="mt-1 font-semibold">{auditRequest.period}</dd></div>
-            <div><dt className="text-blue-100">Owner</dt><dd className="mt-1 font-semibold">{auditRequest.owner}</dd></div>
-          </dl>
+          <div className="border-t border-slate-200 px-7 py-5">
+            <Link className="workbench-primary inline-block" href="/review/document-request">Add New Document Request</Link>
+          </div>
         </section>
-        <Card>
-          <SectionHeading eyebrow="Document requests" title={documentRequest.title} aside={<StatusBadge status="In Progress" />} />
-          <div className="mt-4 grid gap-4 text-sm sm:grid-cols-4">
-            <div><p className="text-slate-500">IDR</p><p className="mt-1 font-semibold">{documentRequest.id}</p></div>
-            <div><p className="text-slate-500">Question</p><p className="mt-1 font-semibold">{documentRequest.question}</p></div>
-            <div><p className="text-slate-500">Due date</p><p className="mt-1 font-semibold">{documentRequest.dueDate}</p></div>
-            <div className="flex items-end">
-              <Link className="text-sm font-semibold text-brand underline" href="/document-requests/IDR-2025-018">
-                View document request
-              </Link>
-            </div>
-          </div>
-        </Card>
-        <Card>
-          <SectionHeading eyebrow="Generated tasks" title="Supporting work items" aside={<span className="text-sm text-slate-500">5 tasks / 2 closed</span>} />
-          <TaskList linked tasks={progressingTasks} />
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/final-response">
-              <PrimaryButton>Response Management</PrimaryButton>
-            </Link>
-            <SecondaryButton>Audit Summary</SecondaryButton>
-          </div>
-        </Card>
       </div>
     </PortalShell>
+  );
+}
+function Summary({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg bg-white/20 p-4">
+      <dt className="text-blue-100">{label}</dt>
+      <dd className="mt-3 font-semibold text-white">{value}</dd>
+    </div>
   );
 }

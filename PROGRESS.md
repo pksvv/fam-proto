@@ -17,6 +17,7 @@
 | 4. Task generation and generated-audit review | Completed | Build passed; browser navigation checked (May 25 2026) | Pushed: `0f83055` |
 | 5. Manual collaboration and final response package | Completed | Build passed; approval state checked (May 25 2026) | Pushed: `872dea2` |
 | 6. Tracker and final polish | Completed | Root and `/fam-proto` static builds passed; exported routes checked (May 25 2026) | Pushed: `32be76c` |
+| Corrective interactive workbench rebuild | Completed | Lint/build and full browser reviewer journey passed (May 25 2026) | Included in corrective publication |
 
 ## Completed Work
 
@@ -57,13 +58,24 @@
 - UI verification: local browser confirmed manual collaboration content, response package generation, lineage, and final `Ready for Submission` reviewer action on May 25 2026.
 - Deployment verification: locally served `/fam-proto` export loaded assets, `/tracker/`, and direct `/final-response/review/` navigation without browser errors; the final approval action hydrated successfully.
 - Static-safety scan: no API routes, middleware, server actions, SSR data functions, runtime fetches, authentication, or database code found.
+- Corrective browser verification: exercised IDR intake, extraction, editable audit/IDR creation modals, strategy and task creation, all five manual task submissions and reviewer closures, final package selection, DR Reviewer submission, and `Ready for Submission` approval on May 25 2026.
+- Corrective gate verification: direct `/final-response/` access after reset keeps package generation disabled until every child task is reviewed and closed.
+- Responsive verification: intake notice names and the final review package no longer overflow the narrow in-app browser viewport when long filenames are shown.
 
 ## Next Step
 
-The requested static prototype is published and ready for demonstration and later internal-repository adaptation.
+Use the corrected interactive workbench flow for demonstration and later internal-repository adaptation.
 
 ## Known Limitations
 
-- AI activity, OCR, uploads, task changes, and package generation are deterministic prototype interactions; no live processing occurs.
-- One representative task collaboration view is implemented (`TA-201`); remaining task rows illustrate status and rationale.
+- OCR/extraction and response generation remain deterministic synthetic transformations; uploaded files are locally previewed and never transmitted.
+- All generated tasks can be opened and actioned through the shared task workspace route; the route filename remains `TA-201` for static hosting compatibility while the selected task state drives its content.
 - Final submission is intentionally not implemented; the prototype ends at human-approved `Ready for Submission`.
+
+## Corrective Interactive Rebuild
+
+- Reworked the visual structure toward the reference workbench: patterned canvas, compact rail, operational headers, blue record panels, dense tables/forms, and confirmation overlays.
+- Added persisted browser-local workflow state for document intake, reviewer-edited audit/IDR fields, strategy, task creation, task notes/evidence/responses, and final approval.
+- Added actual local file selection/preview for IDR intake and task evidence uploads while preserving synthetic-data guardrails.
+- Added enforced human gates: completed tasks are locked after approval and final response drafting opens only after all five task responses are closed.
+- Separated the file-picker label and synthetic sample action for accessible, unambiguous intake controls.

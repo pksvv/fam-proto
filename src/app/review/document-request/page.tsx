@@ -1,71 +1,76 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { PortalShell } from "@/components/PortalShell";
-import { Card, Field, HumanReviewBanner, PrimaryButton, SectionHeading, StatusBadge } from "@/components/ui";
-import { documentRequest } from "@/data/mockData";
+import { ConfirmationModal, InputField, SelectField, SuccessMessage } from "@/components/WorkbenchControls";
+import { useWorkflow } from "@/components/WorkflowContext";
+import { StatusBadge } from "@/components/ui";
 
 export default function DocumentRequestReviewPage() {
+  const router = useRouter();
+  const { state, updateDocumentRequest, createDocumentRequest } = useWorkflow();
+  const [confirming, setConfirming] = useState(false);
+
   return (
     <PortalShell copilotKey="documentReview" copilotTitle="Document request hydration" currentStep="document-review">
-      <div className="mx-auto max-w-6xl space-y-5">
-        <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-sm font-medium text-emerald-800">
-          Parent audit request <strong>PA-2025-IRS-104</strong> created successfully after reviewer confirmation.
-        </div>
-        <section className="rounded-2xl bg-brand px-6 py-5 text-white shadow-sm">
-          <div className="flex flex-wrap items-start justify-between gap-5">
+      <div className="mx-auto max-w-[1320px] space-y-4">
+        {state.parentCreated ? <SuccessMessage>Parent audit request {state.audit.id} was created successfully.</SuccessMessage> : null}
+        <header className="workbench-panel px-7 py-5">
+          <p className="text-xs text-slate-500">My Audits &gt;&gt; Audit {state.audit.id} &gt;&gt; Document Request Details</p>
+          <h1 className="mt-2 text-2xl font-semibold">Document Request Details</h1>
+        </header>
+        <section className="workbench-panel overflow-hidden">
+          <div className="workbench-blue-header flex items-start justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-100">Document request draft</p>
-              <h1 className="mt-2 text-2xl font-semibold">{documentRequest.title}</h1>
-              <p className="mt-2 text-sm text-blue-100">{documentRequest.id} / IDR - Individual Document Request</p>
+              <h2 className="text-xl">{state.documentRequest.title}</h2>
+              <p className="mt-3 text-sm text-blue-100">Document Request ID: {state.documentRequest.id}</p>
             </div>
-            <StatusBadge status="Pending Review" />
+            <StatusBadge status={state.documentRequestCreated ? "In Progress" : "Pending Review"} />
+          </div>
+          <div className="p-7">
+            <p className="mb-6 border-l-4 border-amber-400 bg-amber-50 p-4 text-sm text-slate-700">
+              Document request fields have been hydrated from the IDR. Review the question, due date, owners and expected evidence.
+            </p>
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+              <InputField label="Document Request ID" onChange={(value) => updateDocumentRequest("id", value)} value={state.documentRequest.id} />
+              <InputField label="Title" onChange={(value) => updateDocumentRequest("title", value)} required value={state.documentRequest.title} />
+              <InputField label="Due Date" onChange={(value) => updateDocumentRequest("dueDate", value)} required value={state.documentRequest.dueDate} />
+              <SelectField label="Owner" onChange={(value) => updateDocumentRequest("owner", value)} options={["R Kaus", "R Ali"]} value={state.documentRequest.owner} />
+              <div className="md:col-span-2 xl:col-span-3">
+                <label className="workbench-field">
+                  <span>IDR Question*</span>
+                  <textarea className="workbench-textarea min-h-[88px]" onChange={(event) => updateDocumentRequest("question", event.target.value)} value={state.documentRequest.question} />
+                </label>
+              </div>
+              <SelectField label="DR Reviewer" onChange={(value) => updateDocumentRequest("reviewer", value)} options={["R Ali", "R Kaus"]} value={state.documentRequest.reviewer} />
+            </div>
+            <label className="workbench-field mt-5">
+              <span>Required Evidence (one item per line)</span>
+              <textarea
+                className="workbench-textarea min-h-[92px]"
+                onChange={(event) => updateDocumentRequest("requiredEvidence", event.target.value.split("\n"))}
+                value={state.documentRequest.requiredEvidence.join("\n")}
+              />
+            </label>
+            <div className="mt-7 flex gap-3">
+              <button className="workbench-primary" onClick={() => setConfirming(true)} type="button">Create Document Request</button>
+              <button className="workbench-secondary" onClick={() => router.push("/review/audit")} type="button">Back</button>
+            </div>
           </div>
         </section>
-        <HumanReviewBanner>
-          Document request fields have been hydrated from the IDR. The DR Reviewer verifies ownership, evidence scope,
-          and due date before the record is created.
-        </HumanReviewBanner>
-        <div className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
-          <Card>
-            <SectionHeading eyebrow="Hydrated request fields" title="IDR details" />
-            <dl className="mt-5 grid gap-3 sm:grid-cols-2">
-              <Field label="Document Request ID" value={documentRequest.id} />
-              <Field label="Title" value={documentRequest.title} />
-              <Field label="Due date" value={documentRequest.dueDate} attention />
-              <Field label="Owner / Reviewer" value={`${documentRequest.owner} / ${documentRequest.reviewer}`} attention />
-            </dl>
-            <div className="mt-4 rounded-xl border border-slate-200 p-4">
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">IDR question</p>
-              <p className="mt-2 text-sm font-medium text-slate-900">{documentRequest.question}</p>
-            </div>
-          </Card>
-          <div className="space-y-5">
-            <Card>
-              <SectionHeading eyebrow="Evidence requested" title="Required support" />
-              <ul className="mt-4 space-y-3">
-                {documentRequest.requiredEvidence.map((evidence) => (
-                  <li className="flex gap-3 text-sm text-slate-700" key={evidence}>
-                    <span className="mt-0.5 text-emerald-600">✓</span>
-                    {evidence}
-                  </li>
-                ))}
-              </ul>
-            </Card>
-            <Card>
-              <SectionHeading eyebrow="Suggested task groups" title="Potential owners" />
-              <div className="mt-4 flex flex-wrap gap-2">
-                {["Tax Accounting", "Revenue Systems", "GL Reporting", "Federal Tax Compliance"].map((team) => (
-                  <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-brand" key={team}>
-                    {team}
-                  </span>
-                ))}
-              </div>
-              <Link className="mt-5 inline-block" href="/response-strategy">
-                <PrimaryButton>Create Document Request</PrimaryButton>
-              </Link>
-            </Card>
-          </div>
-        </div>
       </div>
+      <ConfirmationModal
+        message={`Create document request ${state.documentRequest.id} and continue to response strategy review?`}
+        onClose={() => setConfirming(false)}
+        onConfirm={() => {
+          createDocumentRequest();
+          setConfirming(false);
+          router.push("/response-strategy");
+        }}
+        open={confirming}
+        title="Confirm Document Request"
+      />
     </PortalShell>
   );
 }

@@ -1,69 +1,70 @@
-import Link from "next/link";
-import { PortalShell } from "@/components/PortalShell";
-import { Card, Field, HumanReviewBanner, PrimaryButton, SectionHeading, StatusBadge } from "@/components/ui";
-import { auditRequest } from "@/data/mockData";
+"use client";
 
-const fields = [
-  ["Audit title", auditRequest.title],
-  ["Audit type", auditRequest.auditType],
-  ["Entity", auditRequest.entity],
-  ["Region", auditRequest.region],
-  ["Market", auditRequest.market],
-  ["Start date", "Jan 01 2024"],
-  ["End date", "Jan 31 2025"],
-  ["Source document", "Synthetic_IDR_2025_018.pdf"],
-] as const;
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { PortalShell } from "@/components/PortalShell";
+import { ConfirmationModal, InputField, SelectField } from "@/components/WorkbenchControls";
+import { useWorkflow } from "@/components/WorkflowContext";
+import { StatusBadge } from "@/components/ui";
 
 export default function ParentAuditReviewPage() {
+  const router = useRouter();
+  const { state, updateAudit, updateAuditDates, createParentAudit } = useWorkflow();
+  const [confirming, setConfirming] = useState(false);
+
   return (
     <PortalShell copilotKey="auditReview" copilotTitle="Parent audit creation" currentStep="audit-review">
-      <div className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-2xl bg-brand px-6 py-5 text-white shadow-sm">
-          <div className="flex flex-wrap items-start justify-between gap-5">
+      <div className="mx-auto max-w-[1320px] space-y-4">
+        <header className="workbench-panel px-7 py-5">
+          <p className="text-xs text-slate-500">New Audit Submission &gt;&gt; Basic Details</p>
+          <h1 className="mt-2 text-2xl font-semibold">Basic Details</h1>
+        </header>
+        <section className="workbench-panel overflow-hidden">
+          <div className="workbench-blue-header flex items-start justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-100">Parent audit request draft</p>
-              <h1 className="mt-2 text-2xl font-semibold">{auditRequest.title}</h1>
-              <p className="mt-2 text-sm text-blue-100">{auditRequest.noticeType} / {auditRequest.issuer}</p>
+              <h2 className="text-xl font-medium">{state.audit.title}</h2>
+              <p className="mt-3 text-sm text-blue-100">Audit Request ID: {state.audit.id}</p>
             </div>
-            <StatusBadge status="Pending Review" />
+            <StatusBadge status={state.parentCreated ? "In Progress" : "Pending Review"} />
+          </div>
+          <div className="bg-white p-7">
+            <div className="mb-6 border-l-4 border-amber-400 bg-amber-50 p-4 text-sm text-slate-700">
+              AI extracted these draft values from the uploaded notice. Review and correct them before creation.
+            </div>
+            <div className="grid gap-x-5 gap-y-5 md:grid-cols-2 xl:grid-cols-4">
+              <InputField label="Audit Title" onChange={(value) => updateAudit("title", value)} required value={state.audit.title} />
+              <SelectField label="Audit Type" onChange={(value) => updateAudit("auditType", value)} options={["Direct Tax", "Indirect Tax"]} value={state.audit.auditType} />
+              <InputField label="Entity" onChange={(value) => updateAudit("entity", value)} required value={state.audit.entity} />
+              <SelectField label="Region" onChange={(value) => updateAudit("region", value)} options={["US", "EMEA", "APAC"]} value={state.audit.region} />
+              <InputField label="Market" onChange={(value) => updateAudit("market", value)} required value={state.audit.market} />
+              <InputField label="Period Under Audit (From)" onChange={(value) => updateAuditDates(value, state.auditEndDate)} type="date" value={state.auditStartDate} />
+              <InputField label="Period Under Audit (To)" onChange={(value) => updateAuditDates(state.auditStartDate, value)} type="date" value={state.auditEndDate} />
+              <SelectField label="Owner" onChange={(value) => updateAudit("owner", value)} options={["R Kaus", "R Ali"]} value={state.audit.owner} />
+            </div>
+            <div className="mt-6 rounded border border-dashed border-slate-300 bg-slate-50 px-5 py-5 text-sm text-slate-600">
+              Source document: <strong>{state.notice?.name ?? "No source document selected - return to intake"}</strong>
+              <span className="ml-6 text-brand">Confidence: 93%</span>
+            </div>
+            <div className="mt-7 flex gap-3">
+              <button className="workbench-primary disabled:opacity-50" disabled={!state.extracted} onClick={() => setConfirming(true)} type="button">
+                Create Parent Audit Request
+              </button>
+              <button className="workbench-secondary" onClick={() => router.push("/intake")} type="button">Back</button>
+            </div>
           </div>
         </section>
-        <HumanReviewBanner>
-          AI has proposed a parent record from the synthetic IDR. The Audit Owner must validate key fields and
-          explicitly approve creation; nothing is submitted to a regulator.
-        </HumanReviewBanner>
-        <Card>
-          <SectionHeading
-            eyebrow="Extracted fields"
-            title="Review parent audit request"
-            aside={<span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-brand">Overall confidence 93%</span>}
-          />
-          <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {fields.map(([label, value]) => (
-              <Field key={label} label={label} value={value} />
-            ))}
-          </dl>
-        </Card>
-        <div className="grid gap-5 lg:grid-cols-[1fr_0.8fr]">
-          <Card>
-            <SectionHeading eyebrow="Fields needing confirmation" title="Review flags" />
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <Field attention label="Audit period ending" value="Jan 31 2025" />
-              <Field attention label="Assigned Audit Owner" value="R Kaus" />
-            </div>
-          </Card>
-          <Card>
-            <SectionHeading eyebrow="Approval action" title="Create reviewed record" />
-            <p className="mt-3 text-sm leading-6 text-slate-600">
-              Approving this draft records the parent audit and advances to IDR field validation.
-            </p>
-            <Link className="mt-5 inline-block" href="/review/document-request">
-              <PrimaryButton>Create Parent Audit Request</PrimaryButton>
-            </Link>
-          </Card>
-        </div>
       </div>
+      <ConfirmationModal
+        message={`Your audit ID ${state.audit.id} will be created using the reviewed values. Proceed to document request review?`}
+        onClose={() => setConfirming(false)}
+        onConfirm={() => {
+          createParentAudit();
+          setConfirming(false);
+          router.push("/review/document-request");
+        }}
+        open={confirming}
+        title="Confirm Parent Audit"
+      />
     </PortalShell>
   );
 }
-

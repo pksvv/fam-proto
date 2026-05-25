@@ -4,6 +4,8 @@ This repository contains a static, leadership-demo prototype for an AI-assisted 
 
 All application data is synthetic. The local `screens/` and `original idr/` folders are design/reference material only and are excluded from source control.
 
+The interactive prototype supports local document selection and preview, editable extracted fields, reviewer confirmation modals, editable task assignment, notes, supporting-document selection, task response submission/closure, response packaging, and DR Reviewer approval. The final response builder is unlocked only after all child tasks are reviewed and closed. Files selected in the browser remain local; the static prototype does not transmit or extract confidential source content.
+
 ## Technology Stack
 
 - Next.js App Router with TypeScript

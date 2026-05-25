@@ -1,84 +1,81 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { PortalShell } from "@/components/PortalShell";
-import { Card, HumanReviewBanner, PrimaryButton, SectionHeading, StatusBadge } from "@/components/ui";
-import { documentRequest, responseStrategy } from "@/data/mockData";
+import { ConfirmationModal, SuccessMessage } from "@/components/WorkbenchControls";
+import { useWorkflow } from "@/components/WorkflowContext";
+import { responseStrategy } from "@/data/mockData";
+import { StatusBadge } from "@/components/ui";
 
 export default function ResponseStrategyPage() {
+  const router = useRouter();
+  const { state, updateStrategy, saveStrategy } = useWorkflow();
+  const [confirming, setConfirming] = useState(false);
+
   return (
     <PortalShell copilotKey="strategy" copilotTitle="Response strategy agent" currentStep="strategy">
-      <div className="mx-auto max-w-6xl space-y-5">
-        <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-sm font-medium text-emerald-800">
-          Document request <strong>{documentRequest.id}</strong> created successfully. Strategy review is ready.
-        </div>
-        <section className="rounded-2xl bg-brand px-6 py-5 text-white">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="mx-auto max-w-[1320px] space-y-4">
+        {state.documentRequestCreated ? <SuccessMessage>Document request {state.documentRequest.id} was created successfully.</SuccessMessage> : null}
+        <header className="workbench-panel px-7 py-5">
+          <p className="text-xs text-slate-500">Audit {state.audit.id} &gt;&gt; Document Request {state.documentRequest.id} &gt;&gt; Response Strategy</p>
+          <h1 className="mt-2 text-2xl font-semibold">Response Strategy Review</h1>
+        </header>
+        <section className="workbench-panel overflow-hidden">
+          <div className="workbench-blue-header flex justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-100">Response strategy review</p>
-              <h1 className="mt-2 text-2xl font-semibold">{documentRequest.title}</h1>
+              <h2 className="text-xl">{state.documentRequest.title}</h2>
+              <p className="mt-3 text-sm text-blue-100">{state.documentRequest.question}</p>
             </div>
-            <StatusBadge status="Ready for Response" />
+            <StatusBadge status={state.strategySaved ? "Ready for Response" : "Pending Review"} />
+          </div>
+          <div className="grid gap-6 p-7 lg:grid-cols-[1.25fr_0.75fr]">
+            <div>
+              <p className="mb-3 text-sm font-semibold">Recommended Response Strategy*</p>
+              <textarea
+                className="workbench-textarea min-h-[160px]"
+                onChange={(event) => updateStrategy(event.target.value)}
+                value={state.strategy}
+              />
+              <div className="mt-5 rounded border border-blue-100 bg-blue-50 p-4 text-sm text-slate-700">
+                <p className="font-semibold text-brand">Why this recommendation was generated</p>
+                <p className="mt-2 leading-6">{responseStrategy.explanation}</p>
+                <p className="mt-3"><strong>Pattern reference:</strong> {responseStrategy.historicalMatch}</p>
+              </div>
+            </div>
+            <div className="space-y-5">
+              <InfoList title="Data sources needed" items={responseStrategy.dataSources} />
+              <InfoList title="Risk and compliance checks" items={responseStrategy.riskConsiderations} />
+              <InfoList title="Questions for reviewer" items={responseStrategy.gaps} />
+            </div>
+          </div>
+          <div className="flex gap-3 border-t border-slate-200 bg-white px-7 py-5">
+            <button className="workbench-primary" onClick={() => setConfirming(true)} type="button">Save Strategy</button>
+            <button className="workbench-secondary" onClick={() => router.push("/review/document-request")} type="button">Back</button>
           </div>
         </section>
-        <HumanReviewBanner>
-          The recommendation explains why each evidence source is requested. A reviewer edits and approves the
-          strategy before child tasks can be proposed.
-        </HumanReviewBanner>
-        <div className="grid gap-5 xl:grid-cols-[1.25fr_0.85fr]">
-          <div className="space-y-5">
-            <Card>
-              <SectionHeading eyebrow="Recommended response strategy" title="Editable reviewer draft" />
-              <label className="sr-only" htmlFor="strategy-draft">Response strategy</label>
-              <textarea
-                className="mt-4 min-h-[122px] w-full resize-none rounded-xl border border-slate-300 bg-slate-50 p-4 text-sm leading-6 text-slate-800 outline-none"
-                defaultValue={responseStrategy.recommendation}
-                id="strategy-draft"
-              />
-              <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50 p-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-brand">Why this was proposed</p>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{responseStrategy.explanation}</p>
-              </div>
-            </Card>
-            <Card>
-              <SectionHeading eyebrow="Auditability" title="Classification and historical pattern" />
-              <div className="mt-4 grid gap-3 md:grid-cols-2">
-                <div className="rounded-xl bg-slate-50 p-4">
-                  <p className="text-xs font-semibold text-slate-500">QUESTION CLASSIFICATION</p>
-                  <p className="mt-2 text-sm font-semibold">{responseStrategy.classification}</p>
-                </div>
-                <div className="rounded-xl bg-slate-50 p-4">
-                  <p className="text-xs font-semibold text-slate-500">HISTORICAL MATCH</p>
-                  <p className="mt-2 text-sm font-semibold">{responseStrategy.historicalMatch}</p>
-                </div>
-              </div>
-            </Card>
-          </div>
-          <div className="space-y-5">
-            <Card>
-              <SectionHeading eyebrow="Evidence checklist" title="Data sources needed" />
-              <ul className="mt-4 space-y-3">
-                {responseStrategy.dataSources.map((source) => (
-                  <li className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-slate-700" key={source}>
-                    ✓ {source}
-                  </li>
-                ))}
-              </ul>
-            </Card>
-            <Card>
-              <SectionHeading eyebrow="Risk and compliance" title="Reviewer considerations" />
-              <ul className="mt-4 space-y-3 text-sm text-slate-700">
-                {responseStrategy.riskConsiderations.map((risk) => <li key={risk}>• {risk}</li>)}
-              </ul>
-              <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-slate-500">Open questions</p>
-              <ul className="mt-3 space-y-2 text-sm text-slate-600">
-                {responseStrategy.gaps.map((gap) => <li key={gap}>• {gap}</li>)}
-              </ul>
-              <Link className="mt-5 inline-block" href="/task-strategy">
-                <PrimaryButton>Save Strategy</PrimaryButton>
-              </Link>
-            </Card>
-          </div>
-        </div>
       </div>
+      <ConfirmationModal
+        message="Save the reviewed response strategy and allow the Task Strategy Agent to propose child tasks?"
+        onClose={() => setConfirming(false)}
+        onConfirm={() => {
+          saveStrategy();
+          setConfirming(false);
+          router.push("/task-strategy");
+        }}
+        open={confirming}
+        title="Confirm Strategy"
+      />
     </PortalShell>
+  );
+}
+function InfoList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <section className="rounded border border-slate-200 p-4">
+      <h3 className="text-sm font-semibold">{title}</h3>
+      <ul className="mt-3 space-y-2 text-sm text-slate-600">
+        {items.map((item) => <li key={item}>- {item}</li>)}
+      </ul>
+    </section>
   );
 }

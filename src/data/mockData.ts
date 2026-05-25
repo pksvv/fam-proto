@@ -454,7 +454,7 @@ export const copilotMessages: Record<string, CopilotMessage[]> = {
   finalResponse: [
     {
       agent: "Evidence Packaging Agent",
-      text: "All five IDR tasks are closed. Select human-approved responses and supporting evidence for the package.",
+      text: "Select closed, human-approved task responses and supporting evidence for the package.",
       state: "complete",
     },
     {

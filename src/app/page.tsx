@@ -1,88 +1,96 @@
-import Link from "next/link";
-import { PortalShell } from "@/components/PortalShell";
-import { Card, PrimaryButton, SectionHeading, StatusBadge } from "@/components/ui";
-import { auditRequest, documentRequest } from "@/data/mockData";
+"use client";
 
-const homeCards = [
-  {
-    title: "New Audit Submission",
-    description: "Start from a new notice or supporting request.",
-    value: "Create",
-  },
-  {
-    title: "My Actions",
-    description: "Human approvals requiring your review.",
-    value: "03",
-  },
-  {
-    title: "My Audits",
-    description: "Active direct tax audit requests.",
-    value: "07",
-  },
-  {
-    title: "Audit Tracker",
-    description: "Upcoming response due dates.",
-    value: "04",
-  },
-  {
-    title: "Notifications",
-    description: "Evidence and reviewer updates.",
-    value: "12",
-  },
-];
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { PortalShell } from "@/components/PortalShell";
+import { useWorkflow } from "@/components/WorkflowContext";
+import { StatusBadge } from "@/components/ui";
 
 export default function HomePage() {
+  const router = useRouter();
+  const { state, resetWorkflow, selectTask } = useWorkflow();
+  const actions = [
+    { id: state.documentRequest.id, title: state.documentRequest.title, type: "Document Request", due: state.documentRequest.dueDate, status: state.documentRequest.status },
+    ...state.tasks.slice(0, 3).map((task) => ({ id: task.id, title: task.title, type: "Task Response", due: task.dueDate, status: task.status })),
+  ];
+
   return (
     <PortalShell copilotKey="home" copilotTitle="Start an IDR review" currentStep="home">
-      <div className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-2xl bg-brand px-6 py-6 text-white shadow-sm md:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-100">Audit owner home</p>
-          <div className="mt-3 flex flex-wrap items-end justify-between gap-5">
-            <div>
-              <h1 className="text-2xl font-semibold md:text-3xl">Welcome to Audit management</h1>
-              <p className="mt-2 max-w-2xl text-sm text-blue-100">
-                Review AI-assisted intake, organize evidence, and keep regulatory responses human-approved.
-              </p>
-            </div>
-            <Link href="/intake">
-              <PrimaryButton className="!bg-white !text-brand hover:!bg-blue-50">Use Sample IRS IDR</PrimaryButton>
-            </Link>
+      <div className="mx-auto max-w-[1320px] space-y-4">
+        <header className="workbench-panel flex flex-wrap items-center justify-between gap-4 px-7 py-5">
+          <div>
+            <p className="text-xs text-slate-500">Audit management &gt;&gt; My Actions</p>
+            <h1 className="mt-2 text-2xl font-semibold">My Actions</h1>
+          </div>
+          <div className="flex gap-3">
+            <Link className="workbench-primary" href="/intake">New Audit Submission</Link>
+            <button className="workbench-secondary" onClick={resetWorkflow} type="button">Reset Demo</button>
+          </div>
+        </header>
+        <section className="workbench-panel overflow-hidden bg-white">
+          <div className="workbench-tabs">
+            <button className="active" type="button">Pending</button>
+            <button type="button">Completed</button>
+            <button type="button">Cancelled</button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[780px] text-left text-sm">
+              <thead className="bg-slate-100 text-slate-700">
+                <tr>
+                  {["Action ID", "Title", "Parent Audit ID", "Due Date", "Action Type", "Assignor", "Status"].map((header) => (
+                    <th className="px-5 py-4 font-semibold" key={header}>{header}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {actions.map((action, index) => (
+                  <tr className="border-t border-slate-200" key={action.id}>
+                    <td className="px-5 py-4">
+                      {index === 0 ? (
+                        <Link className="font-semibold text-brand underline" href="/document-requests/IDR-2025-018">
+                          {action.id}
+                        </Link>
+                      ) : (
+                        <button
+                          className="font-semibold text-brand underline"
+                          onClick={() => {
+                            selectTask(action.id);
+                            router.push("/tasks/TA-201");
+                          }}
+                          type="button"
+                        >
+                          {action.id}
+                        </button>
+                      )}
+                    </td>
+                    <td className="px-5 py-4">{action.title}</td>
+                    <td className="px-5 py-4">{state.audit.id}</td>
+                    <td className="px-5 py-4">{action.due}</td>
+                    <td className="px-5 py-4">{action.type}</td>
+                    <td className="px-5 py-4">R Ali</td>
+                    <td className="px-5 py-4"><StatusBadge status={action.status} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </section>
-        <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
-          {homeCards.map((card) => (
-            <Card className="min-h-[144px]" key={card.title}>
-              <p className="text-sm font-semibold text-slate-900">{card.title}</p>
-              <p className="mt-3 text-3xl font-semibold text-brand">{card.value}</p>
-              <p className="mt-2 text-xs leading-5 text-slate-500">{card.description}</p>
-            </Card>
-          ))}
-        </div>
-        <div className="grid gap-5 xl:grid-cols-[1.35fr_0.9fr]">
-          <Card>
-            <SectionHeading eyebrow="Recent audit" title={auditRequest.title} aside={<StatusBadge status="Pending Review" />} />
-            <dl className="mt-5 grid gap-4 text-sm sm:grid-cols-3">
-              <div>
-                <dt className="text-slate-500">Audit ID</dt>
-                <dd className="mt-1 font-semibold">{auditRequest.id}</dd>
-              </div>
-              <div>
-                <dt className="text-slate-500">Entity</dt>
-                <dd className="mt-1 font-semibold">{auditRequest.entity}</dd>
-              </div>
-              <div>
-                <dt className="text-slate-500">Period</dt>
-                <dd className="mt-1 font-semibold">{auditRequest.period}</dd>
-              </div>
-            </dl>
-          </Card>
-          <Card>
-            <SectionHeading eyebrow="New IDR" title={documentRequest.title} aside={<StatusBadge status="Draft" />} />
-            <p className="mt-4 text-sm text-slate-600">{documentRequest.question}</p>
-            <Link className="mt-5 inline-block" href="/intake">
-              <PrimaryButton>Open AI Intake</PrimaryButton>
-            </Link>
-          </Card>
+        <div className="grid gap-4 md:grid-cols-3">
+          <Link className="workbench-panel p-5" href="/intake">
+            <p className="text-xs font-semibold uppercase text-slate-500">New Audit Submission</p>
+            <p className="mt-3 text-lg font-semibold text-brand">Upload an IDR notice</p>
+            <p className="mt-2 text-sm text-slate-600">Start a new human-reviewed intake.</p>
+          </Link>
+          <Link className="workbench-panel p-5" href="/audits/PA-2025-IRS-104">
+            <p className="text-xs font-semibold uppercase text-slate-500">My Audits</p>
+            <p className="mt-3 text-lg font-semibold">{state.audit.title}</p>
+            <p className="mt-2 text-sm text-slate-600">{state.audit.id}</p>
+          </Link>
+          <Link className="workbench-panel p-5" href="/tracker">
+            <p className="text-xs font-semibold uppercase text-slate-500">Audit Tracker</p>
+            <p className="mt-3 text-lg font-semibold">Portfolio overview</p>
+            <p className="mt-2 text-sm text-slate-600">Review due dates and actions.</p>
+          </Link>
         </div>
       </div>
     </PortalShell>
