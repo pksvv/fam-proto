@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PortalShell } from "@/components/PortalShell";
 import { TaskList } from "@/components/TaskList";
 import { Card, PrimaryButton, SecondaryButton, SectionHeading, StatusBadge } from "@/components/ui";
@@ -27,10 +28,14 @@ export default function DocumentRequestDetailPage() {
         </Card>
         <Card>
           <SectionHeading eyebrow="Child tasks" title="Task response collection" aside={<StatusBadge status="Ready for Response" />} />
-          <TaskList tasks={progressingTasks} />
+          <TaskList linked tasks={progressingTasks} />
           <div className="mt-5 flex flex-wrap gap-3">
-            <PrimaryButton>View Responses</PrimaryButton>
-            <SecondaryButton>Create Task Response</SecondaryButton>
+            <Link href="/final-response">
+              <PrimaryButton>View Responses</PrimaryButton>
+            </Link>
+            <Link href="/tasks/TA-201">
+              <SecondaryButton>Create Task Response</SecondaryButton>
+            </Link>
           </div>
         </Card>
       </div>

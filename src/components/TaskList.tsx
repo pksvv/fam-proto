@@ -1,12 +1,15 @@
+import Link from "next/link";
 import type { AuditTask } from "@/data/mockData";
 import { StatusBadge } from "./ui";
 
 export function TaskList({
   tasks,
   detailed = false,
+  linked = false,
 }: {
   tasks: AuditTask[];
   detailed?: boolean;
+  linked?: boolean;
 }) {
   return (
     <div className="mt-4 overflow-hidden rounded-xl border border-slate-200">
@@ -21,7 +24,14 @@ export function TaskList({
           <div className="grid gap-3 md:grid-cols-[1.8fr_0.9fr_1fr_0.8fr] md:items-center">
             <div>
               <p className="text-xs font-semibold text-brand">{task.id}</p>
-              <p className="mt-1 text-sm font-semibold text-slate-900">{task.title}</p>
+              {linked && task.id === "TA-201" ? (
+                <Link className="mt-1 block text-sm font-semibold text-slate-900 hover:text-brand" href={`/tasks/${task.id}`}>
+                  {task.title}
+                  <span className="ml-2 text-xs font-normal text-brand">(open collaboration example)</span>
+                </Link>
+              ) : (
+                <p className="mt-1 text-sm font-semibold text-slate-900">{task.title}</p>
+              )}
             </div>
             <div className="text-sm text-slate-700">
               <p className="font-medium">{task.assignee}</p>
@@ -42,4 +52,3 @@ export function TaskList({
     </div>
   );
 }
-

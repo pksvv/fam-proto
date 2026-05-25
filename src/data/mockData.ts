@@ -71,6 +71,21 @@ export interface ResponseStrategy {
   gaps: string[];
 }
 
+export interface CollaborationNote {
+  author: string;
+  role: Persona;
+  time: string;
+  text: string;
+}
+
+export interface FinalResponsePackage {
+  draft: string;
+  evidenceSummary: string;
+  reviewerChecks: string[];
+  assumptions: string[];
+  lineage: { source: string; supports: string; approvedBy: string }[];
+}
+
 export interface CopilotMessage {
   agent: string;
   text: string;
@@ -239,6 +254,60 @@ export const responseStrategy: ResponseStrategy = {
   ],
 };
 
+export const collaborationNotes: CollaborationNote[] = [
+  {
+    author: "R Ali",
+    role: "Task Reviewer",
+    time: "Jun 13 2026, 10:12 AM",
+    text: "Please clarify whether the itemization includes adjustment categories separately from reported income.",
+  },
+  {
+    author: "R Kaus",
+    role: "Task Assignee",
+    time: "Jun 13 2026, 2:46 PM",
+    text: "Monthly income itemization details have been provided by category. Adjustments and exclusions are separated in the supporting memo.",
+  },
+  {
+    author: "R Ali",
+    role: "Task Reviewer",
+    time: "Jun 14 2026, 9:03 AM",
+    text: "Reviewed against the GL reconciliation summary. Supporting documents are uploaded and the task may be closed.",
+  },
+];
+
+export const finalResponsePackage: FinalResponsePackage = {
+  draft:
+    "In response to IDR-2025-018, American Express Services Corp. provides the requested income itemization for the audit period Jan 01 2024 to Jan 31 2025. Income is organized by category in the attached schedule and reconciled to the general ledger reporting summary. Identified adjustments and exclusions are stated separately in the reviewer memorandum with supporting rationale.",
+  evidenceSummary:
+    "Three selected supporting artifacts establish category-level itemization, GL reconciliation, and documented treatment of exclusions.",
+  reviewerChecks: [
+    "Audit period agrees to the IDR request.",
+    "Itemized category total reconciles to the GL summary.",
+    "Adjustments and exclusions receive separate reviewer confirmation.",
+  ],
+  assumptions: [
+    "No additional sampled contracts are requested unless the regulator follows up.",
+    "Named reviewer approval is required before submission outside this prototype.",
+  ],
+  lineage: [
+    {
+      source: "TA-201 / FY2024_Income_Itemization_Schedule.xlsx",
+      supports: "Income itemization by category",
+      approvedBy: "R Ali",
+    },
+    {
+      source: "TA-202 / GL_to_Tax_Reconciliation_Summary.pdf",
+      supports: "Reconciliation to GL reporting summary",
+      approvedBy: "R Kaus",
+    },
+    {
+      source: "TA-203 / Adjustments_and_Exclusions_Memo.pdf",
+      supports: "Separate exclusion rationale",
+      approvedBy: "R Ali",
+    },
+  ],
+};
+
 export const copilotMessages: Record<string, CopilotMessage[]> = {
   home: [
     {
@@ -370,6 +439,42 @@ export const copilotMessages: Record<string, CopilotMessage[]> = {
       state: "info",
     },
   ],
+  taskDetail: [
+    {
+      agent: "Evidence Packaging Agent",
+      text: "I can summarize this task context, but the response and supporting documents remain human-authored and reviewer-approved.",
+      state: "info",
+    },
+    {
+      agent: "Evidence Packaging Agent",
+      text: "Response evidence and reviewer sign-off are recorded. Task status is Closed.",
+      state: "complete",
+    },
+  ],
+  finalResponse: [
+    {
+      agent: "Evidence Packaging Agent",
+      text: "All five IDR tasks are closed. Select human-approved responses and supporting evidence for the package.",
+      state: "complete",
+    },
+    {
+      agent: "Final Response Agent",
+      text: "Final response package is being drafted.",
+      state: "active",
+    },
+  ],
+  finalReview: [
+    {
+      agent: "Final Response Agent",
+      text: "A regulator-ready draft and evidence lineage are ready for human review.",
+      state: "review",
+    },
+    {
+      agent: "Final Response Agent",
+      text: "No response will be submitted without explicit reviewer approval.",
+      state: "info",
+    },
+  ],
 };
 
 export const agentEvents: Record<string, AgentEvent[]> = {
@@ -387,4 +492,7 @@ export const agentEvents: Record<string, AgentEvent[]> = {
   tasks: [{ agent: "Task Strategy Agent", status: "Human approval needed", confidence: 92 }],
   auditDetail: [{ agent: "Audit Context Agent", status: "Records generated", confidence: 100 }],
   documentDetail: [{ agent: "Evidence Packaging Agent", status: "Monitoring completion" }],
+  taskDetail: [{ agent: "Evidence Packaging Agent", status: "Human collaboration complete", confidence: 100 }],
+  finalResponse: [{ agent: "Final Response Agent", status: "Drafting selection", confidence: 95 }],
+  finalReview: [{ agent: "Final Response Agent", status: "Reviewer approval needed", confidence: 95 }],
 };

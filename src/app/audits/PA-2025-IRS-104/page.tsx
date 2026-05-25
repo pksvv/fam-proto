@@ -45,9 +45,11 @@ export default function AuditRequestDetailPage() {
         </Card>
         <Card>
           <SectionHeading eyebrow="Generated tasks" title="Supporting work items" aside={<span className="text-sm text-slate-500">5 tasks / 2 closed</span>} />
-          <TaskList tasks={progressingTasks} />
+          <TaskList linked tasks={progressingTasks} />
           <div className="mt-5 flex flex-wrap gap-3">
-            <PrimaryButton>Response Management</PrimaryButton>
+            <Link href="/final-response">
+              <PrimaryButton>Response Management</PrimaryButton>
+            </Link>
             <SecondaryButton>Audit Summary</SecondaryButton>
           </div>
         </Card>

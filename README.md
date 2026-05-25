@@ -70,7 +70,20 @@ The prototype will show AI extracting context, proposing strategies and tasks, a
 
 ## Demo Journey
 
-The navigable workflow screens are delivered incrementally and tracked in [PROGRESS.md](./PROGRESS.md). Planned journey:
+The core navigable workflow is tracked in [PROGRESS.md](./PROGRESS.md). Routes:
 
-`Home` -> `AI IDR Intake` -> `Parent Audit Review` -> `Document Request Review` -> `Response Strategy` -> `Task Strategy` -> `Audit Detail` -> `Document Request Detail` -> `Task Detail` -> `Final Response Builder` -> `Final Response Review` -> `Audit Tracker`
+| Screen | Route |
+| --- | --- |
+| Home / landing | `/` |
+| AI IDR intake | `/intake/` |
+| Parent audit request review | `/review/audit/` |
+| Document request review | `/review/document-request/` |
+| Response strategy review | `/response-strategy/` |
+| Task strategy review | `/task-strategy/` |
+| Audit request dashboard | `/audits/PA-2025-IRS-104/` |
+| Document request / task list | `/document-requests/IDR-2025-018/` |
+| Manual collaboration task example | `/tasks/TA-201/` |
+| Final response builder | `/final-response/` |
+| Final response package review | `/final-response/review/` |
 
+The final screen demonstrates reviewer approval changing a draft package to `Ready for Submission`; it never submits data externally.

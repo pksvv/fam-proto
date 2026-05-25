@@ -14,8 +14,8 @@
 | 1. Repository verification and app foundation | Completed | `npm run build` passed (May 25 2026) | Pushed: `231b29a` |
 | 2. Portal shell and AI intake | Completed | Build passed; browser interaction checked (May 25 2026) | Pushed: `a84a9e5` |
 | 3. Hydrated review and strategy journey | Completed | Build passed; browser handoffs checked (May 25 2026) | Pushed: `c3dfa34` |
-| 4. Task generation and generated-audit review | Completed | Build passed; browser navigation checked (May 25 2026) | Ready to publish |
-| 5. Manual collaboration and final response package | Not started | Pending | Pending |
+| 4. Task generation and generated-audit review | Completed | Build passed; browser navigation checked (May 25 2026) | Pushed: `0f83055` |
+| 5. Manual collaboration and final response package | Completed | Build passed; approval state checked (May 25 2026) | Ready to publish |
 | 6. Tracker and final polish | Not started | Pending | Pending |
 
 ## Completed Work
@@ -35,6 +35,10 @@
 - Pushed verified Milestone 3 review and strategy journey to `origin/main` (`c3dfa34`).
 - Began recommended child-task approval, generated audit dashboard, and document-request task oversight views.
 - Implemented the five recommended child-task proposal, generated parent-audit dashboard, and document-request task list with realistic work progression.
+- Pushed verified Milestone 4 generated-task and audit-dashboard views to `origin/main` (`0f83055`).
+- Began manual task collaboration, final-response evidence selection, draft package, lineage, and reviewer approval states.
+- Implemented manual task notes/documents/response example, evidence and task response selection, generated final draft, traceability, open assumptions, and explicit approval state.
+- Expanded README demo-route documentation for the complete core workflow.
 
 ## Verification Log
 
@@ -44,7 +48,8 @@
 - UI verification: local browser confirmed the landing CTA, intake notice/context display, and deterministic `New Audit` selection on May 25 2026.
 - UI verification: local browser confirmed parent-audit-to-IDR-to-strategy approval navigation and explainability content on May 25 2026.
 - UI verification: local browser confirmed strategy-to-task-to-generated-audit-to-IDR navigation and status progression on May 25 2026.
+- UI verification: local browser confirmed manual collaboration content, response package generation, lineage, and final `Ready for Submission` reviewer action on May 25 2026.
 
 ## Next Step
 
-Commit and push Milestone 4, then add manual task collaboration and final-response evidence packaging screens.
+Commit and push Milestone 5, then add the optional tracker, run final polish/static validation, and finalize documentation.
