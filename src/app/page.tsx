@@ -1,50 +1,90 @@
 import Link from "next/link";
+import { PortalShell } from "@/components/PortalShell";
+import { Card, PrimaryButton, SectionHeading, StatusBadge } from "@/components/ui";
 import { auditRequest, documentRequest } from "@/data/mockData";
 
-export default function FoundationPage() {
+const homeCards = [
+  {
+    title: "New Audit Submission",
+    description: "Start from a new notice or supporting request.",
+    value: "Create",
+  },
+  {
+    title: "My Actions",
+    description: "Human approvals requiring your review.",
+    value: "03",
+  },
+  {
+    title: "My Audits",
+    description: "Active direct tax audit requests.",
+    value: "07",
+  },
+  {
+    title: "Audit Tracker",
+    description: "Upcoming response due dates.",
+    value: "04",
+  },
+  {
+    title: "Notifications",
+    description: "Evidence and reviewer updates.",
+    value: "12",
+  },
+];
+
+export default function HomePage() {
   return (
-    <main className="min-h-screen px-6 py-8 md:px-10">
-      <div className="mx-auto max-w-6xl rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand">
-          Audit management
-        </p>
-        <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-slate-900">
-          AI-enabled Tax Audit Management portal
-        </h1>
-        <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-          Static prototype foundation for a human-reviewed audit journey. Every
-          record shown is synthetic and demonstrates explainable assistance,
-          never automated filing or submission.
-        </p>
-        <section className="mt-10 grid gap-4 md:grid-cols-2">
-          <div className="rounded-2xl bg-brand p-6 text-white">
-            <p className="text-xs uppercase tracking-wider text-blue-100">
-              Audit request
-            </p>
-            <h2 className="mt-3 text-xl font-semibold">{auditRequest.title}</h2>
-            <p className="mt-3 text-sm text-blue-100">{auditRequest.id}</p>
-          </div>
-          <div className="rounded-2xl border border-slate-200 p-6">
-            <p className="text-xs uppercase tracking-wider text-slate-500">
-              IDR in scope
-            </p>
-            <h2 className="mt-3 text-xl font-semibold">{documentRequest.title}</h2>
-            <p className="mt-3 text-sm text-slate-500">{documentRequest.id}</p>
+    <PortalShell copilotKey="home" copilotTitle="Start an IDR review" currentStep="home">
+      <div className="mx-auto max-w-6xl space-y-5">
+        <section className="rounded-2xl bg-brand px-6 py-6 text-white shadow-sm md:px-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-100">Audit owner home</p>
+          <div className="mt-3 flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <h1 className="text-2xl font-semibold md:text-3xl">Welcome to Audit management</h1>
+              <p className="mt-2 max-w-2xl text-sm text-blue-100">
+                Review AI-assisted intake, organize evidence, and keep regulatory responses human-approved.
+              </p>
+            </div>
+            <Link href="/intake">
+              <PrimaryButton className="!bg-white !text-brand hover:!bg-blue-50">Use Sample IRS IDR</PrimaryButton>
+            </Link>
           </div>
         </section>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Link
-            className="rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white"
-            href="/"
-          >
-            Portal shell coming in Milestone 2
-          </Link>
-          <span className="rounded-lg border border-slate-200 px-5 py-3 text-sm text-slate-600">
-            Static export configured for GitHub Pages
-          </span>
+        <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
+          {homeCards.map((card) => (
+            <Card className="min-h-[144px]" key={card.title}>
+              <p className="text-sm font-semibold text-slate-900">{card.title}</p>
+              <p className="mt-3 text-3xl font-semibold text-brand">{card.value}</p>
+              <p className="mt-2 text-xs leading-5 text-slate-500">{card.description}</p>
+            </Card>
+          ))}
+        </div>
+        <div className="grid gap-5 xl:grid-cols-[1.35fr_0.9fr]">
+          <Card>
+            <SectionHeading eyebrow="Recent audit" title={auditRequest.title} aside={<StatusBadge status="Pending Review" />} />
+            <dl className="mt-5 grid gap-4 text-sm sm:grid-cols-3">
+              <div>
+                <dt className="text-slate-500">Audit ID</dt>
+                <dd className="mt-1 font-semibold">{auditRequest.id}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-500">Entity</dt>
+                <dd className="mt-1 font-semibold">{auditRequest.entity}</dd>
+              </div>
+              <div>
+                <dt className="text-slate-500">Period</dt>
+                <dd className="mt-1 font-semibold">{auditRequest.period}</dd>
+              </div>
+            </dl>
+          </Card>
+          <Card>
+            <SectionHeading eyebrow="New IDR" title={documentRequest.title} aside={<StatusBadge status="Draft" />} />
+            <p className="mt-4 text-sm text-slate-600">{documentRequest.question}</p>
+            <Link className="mt-5 inline-block" href="/intake">
+              <PrimaryButton>Open AI Intake</PrimaryButton>
+            </Link>
+          </Card>
         </div>
       </div>
-    </main>
+    </PortalShell>
   );
 }
-

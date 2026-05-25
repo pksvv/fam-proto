@@ -71,6 +71,27 @@ export interface ResponseStrategy {
   gaps: string[];
 }
 
+export interface CopilotMessage {
+  agent: string;
+  text: string;
+  state: "complete" | "active" | "review" | "info";
+  time?: string;
+}
+
+export interface AgentEvent {
+  agent: string;
+  status: string;
+  confidence?: number;
+}
+
+export const personas: Persona[] = [
+  "Audit Owner",
+  "Task Reviewer",
+  "Task Assignee",
+  "DR Reviewer",
+  "Viewer",
+];
+
 export const auditRequest: AuditRequest = {
   id: "PA-2025-IRS-104",
   title: "IRS Income Tax Audit FY2024",
@@ -213,3 +234,58 @@ export const responseStrategy: ResponseStrategy = {
   ],
 };
 
+export const copilotMessages: Record<string, CopilotMessage[]> = {
+  home: [
+    {
+      agent: "IDR Intake Agent",
+      text: "Drop an IDR notice to begin.",
+      state: "active",
+    },
+    {
+      agent: "Audit Context Agent",
+      text: "I can map extracted context to a new or existing audit after your review.",
+      state: "info",
+    },
+  ],
+  intake: [
+    {
+      agent: "IDR Intake Agent",
+      text: "Synthetic IRS IDR uploaded for demonstration.",
+      state: "complete",
+      time: "09:41",
+    },
+    {
+      agent: "OCR Extraction Agent",
+      text: "OCR is digitising the IDR document...",
+      state: "complete",
+      time: "09:41",
+    },
+    {
+      agent: "Audit Context Agent",
+      text: "Audit context is being extracted...",
+      state: "complete",
+      time: "09:42",
+    },
+    {
+      agent: "Audit Context Agent",
+      text: "Extracted context is ready. Does this map to an existing audit or a new audit?",
+      state: "review",
+      time: "09:42",
+    },
+  ],
+  auditReview: [
+    {
+      agent: "Audit Context Agent",
+      text: "Parent audit request draft is ready for review.",
+      state: "review",
+    },
+  ],
+};
+
+export const agentEvents: Record<string, AgentEvent[]> = {
+  home: [{ agent: "IDR Intake Agent", status: "Ready" }],
+  intake: [
+    { agent: "OCR Extraction Agent", status: "Complete", confidence: 98 },
+    { agent: "Audit Context Agent", status: "Human review needed", confidence: 93 },
+  ],
+};
