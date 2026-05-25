@@ -16,7 +16,7 @@
 | 3. Hydrated review and strategy journey | Completed | Build passed; browser handoffs checked (May 25 2026) | Pushed: `c3dfa34` |
 | 4. Task generation and generated-audit review | Completed | Build passed; browser navigation checked (May 25 2026) | Pushed: `0f83055` |
 | 5. Manual collaboration and final response package | Completed | Build passed; approval state checked (May 25 2026) | Pushed: `872dea2` |
-| 6. Tracker and final polish | Completed | Root and `/fam-proto` static builds passed; exported routes checked (May 25 2026) | Ready to publish |
+| 6. Tracker and final polish | Completed | Root and `/fam-proto` static builds passed; exported routes checked (May 25 2026) | Pushed: `32be76c` |
 
 ## Completed Work
 
@@ -44,6 +44,7 @@
 - Implemented the optional audit tracker dashboard and AI-assisted case summary.
 - Added GitHub Pages Actions publication workflow and exported `.nojekyll` marker.
 - Finalized README guidance for local run, static builds, Pages base paths, and moving to an office/internal repository.
+- Pushed verified Milestone 6 tracker and deployment polish to `origin/main` (`32be76c`).
 
 ## Verification Log
 
@@ -59,7 +60,7 @@
 
 ## Next Step
 
-Commit and push Milestone 6. The requested static prototype is ready for demonstration and later internal-repository adaptation.
+The requested static prototype is published and ready for demonstration and later internal-repository adaptation.
 
 ## Known Limitations
 
