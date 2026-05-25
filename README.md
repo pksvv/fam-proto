@@ -40,11 +40,15 @@ NEXT_PUBLIC_BASE_PATH=/fam-proto npm run build
 
 Publish the contents of `out/` to GitHub Pages, commonly through a GitHub Actions workflow or a `gh-pages` branch. `NEXT_PUBLIC_BASE_PATH` configures both Next.js `basePath` and `assetPrefix`, so JavaScript, CSS, and in-app links resolve below the project repository path.
 
+This prototype includes `.github/workflows/deploy-pages.yml`. On a push to `main`, it builds with `NEXT_PUBLIC_BASE_PATH=/${{ github.event.repository.name }}` and publishes `out/` through GitHub Pages Actions. In GitHub repository settings, choose **GitHub Actions** as the Pages source before running it.
+
 For a user/organization Pages repository (`<org>.github.io`) or a custom domain served at `/`, omit `NEXT_PUBLIC_BASE_PATH`:
 
 ```bash
 npm run build
 ```
+
+For that root-hosted case, remove the `NEXT_PUBLIC_BASE_PATH` environment value from the included Pages workflow.
 
 ## Migration to an Internal Repository
 
@@ -54,6 +58,7 @@ When moving this prototype into the office/internal repository:
 2. If that repository deploys as a GitHub Pages project site, replace `/fam-proto` with its repository name at build time, for example `NEXT_PUBLIC_BASE_PATH=/internal-audit-portal npm run build`.
 3. If the deployment uses a custom domain at its root, build without a base path.
 4. Keep the application static: do not introduce confidential data, runtime secrets, backend calls, authentication assumptions, or server-only Next.js features.
+5. Update the included Pages workflow if the internal site is root-hosted behind a custom domain; project-site repositories need no hard-coded repo-name change because the workflow reads the target repository name.
 
 ## Synthetic Scenario
 
@@ -85,5 +90,14 @@ The core navigable workflow is tracked in [PROGRESS.md](./PROGRESS.md). Routes:
 | Manual collaboration task example | `/tasks/TA-201/` |
 | Final response builder | `/final-response/` |
 | Final response package review | `/final-response/review/` |
+| Audit tracker overview | `/tracker/` |
 
 The final screen demonstrates reviewer approval changing a draft package to `Ready for Submission`; it never submits data externally.
+
+## Static-hosting Safety
+
+- Route content is prerendered during `npm run build` and emitted under `out/`.
+- Navigation uses static App Router links and trailing-slash paths suitable for GitHub Pages directories.
+- Mock data is bundled locally; there are no requests to business systems or external APIs.
+- The copilot interactions are deterministic UI demonstrations, not live AI calls.
+- No API routes, server actions, middleware, SSR, authentication, database, secret, or server runtime is required.

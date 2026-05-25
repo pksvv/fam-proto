@@ -475,6 +475,18 @@ export const copilotMessages: Record<string, CopilotMessage[]> = {
       state: "info",
     },
   ],
+  tracker: [
+    {
+      agent: "Audit Context Agent",
+      text: "Three synthetic cases require human review across intake, strategy, and response approval stages.",
+      state: "review",
+    },
+    {
+      agent: "Evidence Packaging Agent",
+      text: "Upcoming due dates are prioritized by response readiness and reviewer action needed.",
+      state: "info",
+    },
+  ],
 };
 
 export const agentEvents: Record<string, AgentEvent[]> = {
@@ -495,4 +507,5 @@ export const agentEvents: Record<string, AgentEvent[]> = {
   taskDetail: [{ agent: "Evidence Packaging Agent", status: "Human collaboration complete", confidence: 100 }],
   finalResponse: [{ agent: "Final Response Agent", status: "Drafting selection", confidence: 95 }],
   finalReview: [{ agent: "Final Response Agent", status: "Reviewer approval needed", confidence: 95 }],
+  tracker: [{ agent: "Audit Context Agent", status: "Portfolio insights ready", confidence: 94 }],
 };
