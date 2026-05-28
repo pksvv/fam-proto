@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useState, type DragEvent } from "react";
+import { EvidenceViewer } from "@/components/EvidenceViewer";
 import { PortalShell } from "@/components/PortalShell";
 import { useWorkflow } from "@/components/WorkflowContext";
-import { StatusBadge } from "@/components/ui";
 
 const processStages = [
   "Document received in secure local workspace",
@@ -78,18 +78,17 @@ export default function IntakePage() {
           <p className="text-xs text-slate-500">New Audit Submission &gt;&gt; Upload IDR Notice</p>
           <h1 className="mt-2 text-2xl font-semibold text-slate-900">New Audit Submission</h1>
         </div>
-        <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
-          <section className="workbench-panel overflow-hidden">
-            <div className="workbench-blue-header flex items-center justify-between">
-              <div>
-                <h2 className="text-lg font-semibold">IDR / Audit Notice</h2>
-                <p className="mt-2 text-sm text-blue-100">Drop a notice to begin document-assisted intake</p>
+        <div className="grid items-start gap-4 xl:grid-cols-[minmax(350px,1.12fr)_minmax(300px,0.88fr)]">
+          {!state.notice ? (
+            <section className="workbench-panel overflow-hidden">
+              <div className="workbench-blue-header flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold">IDR / Audit Notice</h2>
+                  <p className="mt-2 text-sm text-blue-100">Drop a notice to begin document-assisted intake</p>
+                </div>
               </div>
-              {state.notice ? <StatusBadge status={state.extracted ? "Pending Review" : "Draft"} /> : null}
-            </div>
-            {!state.notice ? (
               <div
-                className={`m-6 flex min-h-[398px] cursor-pointer flex-col items-center justify-center border-2 border-dashed px-8 text-center transition ${
+                className={`m-6 flex min-h-[620px] cursor-pointer flex-col items-center justify-center border-2 border-dashed px-8 text-center transition ${
                   dragging ? "border-brand bg-blue-50" : "border-slate-300 bg-slate-50/70"
                 }`}
                 onDragEnter={(event) => {
@@ -118,30 +117,24 @@ export default function IntakePage() {
                   Use Sample IRS IDR
                 </button>
               </div>
-            ) : (
-              <div className="p-5">
-                <div className="mb-4 flex flex-col gap-3 rounded border border-slate-200 bg-slate-50 px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
-                  <div className="min-w-0">
-                    <p className="break-all font-semibold text-slate-800">{state.notice.name}</p>
-                    <p className="mt-1 text-xs text-slate-500">{state.notice.size} / local preview only</p>
-                  </div>
-                  <button className="text-sm font-semibold text-brand" onClick={loadSampleNotice} type="button">
-                    Reset to sample
-                  </button>
-                </div>
-                <div className="min-h-[350px] border border-slate-200 bg-white p-5">
-                  {previewUrl && previewType.startsWith("image/") ? (
+            </section>
+          ) : (
+            <div>
+              <EvidenceViewer
+                extracted={state.extracted}
+                notice={state.notice}
+                preview={previewUrl && previewType.startsWith("image/") ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img alt="Uploaded document preview" className="mx-auto max-h-[330px] object-contain" src={previewUrl} />
+                    <img alt="Uploaded document preview" className="m-auto max-h-[520px] object-contain p-5" src={previewUrl} />
                   ) : previewUrl && previewType === "application/pdf" ? (
-                    <iframe className="h-[330px] w-full" src={previewUrl} title="Uploaded PDF preview" />
-                  ) : (
-                    <SyntheticNotice />
-                  )}
-                </div>
-              </div>
-            )}
-          </section>
+                    <iframe className="h-[540px] w-full" src={previewUrl} title="Uploaded PDF preview" />
+                  ) : undefined}
+              />
+              <button className="workbench-secondary mt-3" onClick={loadSampleNotice} type="button">
+                Reset to sample notice
+              </button>
+            </div>
+          )}
           <section className="workbench-panel p-6">
             <h2 className="text-lg font-semibold">Digitise and map document</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">
@@ -175,20 +168,5 @@ export default function IntakePage() {
         </div>
       </div>
     </PortalShell>
-  );
-}
-
-function SyntheticNotice() {
-  return (
-    <article className="mx-auto max-w-md text-sm text-slate-700">
-      <p className="font-semibold uppercase tracking-[0.16em]">Internal Revenue Service</p>
-      <p className="mt-2 text-xs text-slate-500">Synthetic sample IDR - demonstration document only</p>
-      <div className="my-4 border-t-2 border-slate-700" />
-      <p><strong>Document Request ID:</strong> IDR-2025-018</p>
-      <p className="mt-3"><strong>Entity:</strong> American Express Services Corp.</p>
-      <p className="mt-3"><strong>Audit period:</strong> Jan 01 2024 to Jan 31 2025</p>
-      <p className="mt-5"><strong>Request:</strong> Provide income itemization details.</p>
-      <p className="mt-5"><strong>Due date:</strong> Jul 01 2026</p>
-    </article>
   );
 }

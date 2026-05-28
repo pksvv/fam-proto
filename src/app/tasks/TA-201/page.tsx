@@ -117,9 +117,12 @@ export default function TaskDetailPage() {
             {allTasksClosed ? (
               <Link className="workbench-primary inline-block" href="/final-response">Build Final DR Response</Link>
             ) : (
-              <span className="rounded border border-amber-300 bg-amber-50 px-5 py-3 text-sm text-amber-800">
-                Close all IDR tasks to build the final response.
-              </span>
+              <div className="flex flex-wrap items-center justify-end gap-3">
+                <span className="rounded border border-amber-300 bg-amber-50 px-5 py-3 text-sm text-amber-800">
+                  Close all IDR tasks before a live final response is created.
+                </span>
+                <Link className="workbench-primary inline-block" href="/final-response">Open Closeout Review Demo</Link>
+              </div>
             )}
           </div>
         ) : null}

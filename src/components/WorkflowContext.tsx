@@ -11,7 +11,10 @@ import {
   auditRequest,
   collaborationNotes,
   documentRequest,
+  finalResponsePackage,
   responseStrategy,
+  taskArtifacts,
+  taskCloseoutRecords,
   tasks,
   type AuditRequest,
   type AuditTask,
@@ -53,6 +56,7 @@ type WorkflowState = {
   selectedTaskIds: string[];
   selectedEvidenceIds: string[];
   instructions: string;
+  responseDraft: string;
 };
 
 type WorkflowContextValue = {
@@ -69,18 +73,20 @@ type WorkflowContextValue = {
   updateTask: (id: string, updates: Partial<InteractiveTask>) => void;
   selectTask: (id: string) => void;
   createTasks: () => void;
+  prepareCloseoutDemo: () => void;
   addTaskNote: (id: string, text: string) => void;
   addTaskFiles: (id: string, files: string[]) => void;
   setPackageSelection: (taskIds: string[], evidenceIds: string[], instructions: string) => void;
   generatePackage: () => void;
+  updateResponseDraft: (value: string) => void;
   sendPackageForReview: () => void;
   submitPackage: () => void;
   resetWorkflow: () => void;
 };
 
-const STORAGE_KEY = "audit-management-workflow-v2";
+const STORAGE_KEY = "audit-management-workflow-v4";
 const defaultInstructions =
-  "Prepare a concise, regulator-ready response. Include income itemization by category, reconcile to GL summary, and call out exclusions separately.";
+  "Prepare a regulator-style response with Schedule A income account detail, Schedule B GL control reconciliation, and Schedule C treatment of contra-revenue and excluded items. Preserve the synthetic-data disclaimer on every submission-facing section.";
 
 function makeInitialState(): WorkflowState {
   return {
@@ -109,6 +115,7 @@ function makeInitialState(): WorkflowState {
     selectedTaskIds: [],
     selectedEvidenceIds: [],
     instructions: defaultInstructions,
+    responseDraft: finalResponsePackage.draft,
   };
 }
 
@@ -204,6 +211,25 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
         tasksCreated: true,
         tasks: current.tasks.map((task) => ({ ...task, status: "Pending" as Status })),
       })),
+    prepareCloseoutDemo: () =>
+      setState((current) => ({
+        ...current,
+        tasksCreated: true,
+        packageGenerated: false,
+        responseSubmittedForReview: false,
+        submitted: false,
+        documentRequest: { ...current.documentRequest, status: "Ready for Response" },
+        tasks: current.tasks.map((task) => {
+          const closeout = taskCloseoutRecords.find((record) => record.taskId === task.id);
+          const files = taskArtifacts.filter((artifact) => artifact.taskId === task.id).map((artifact) => artifact.name);
+          return closeout
+            ? { ...task, status: "Closed", response: closeout.response, notes: closeout.messages, files }
+            : task;
+        }),
+        selectedTaskIds: current.tasks.map((task) => task.id),
+        selectedEvidenceIds: taskArtifacts.filter((artifact) => artifact.recommended).map((artifact) => artifact.id),
+        responseDraft: finalResponsePackage.draft,
+      })),
     addTaskNote: (id, text) =>
       setState((current) => ({
         ...current,
@@ -233,7 +259,9 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
       })),
     setPackageSelection: (selectedTaskIds, selectedEvidenceIds, instructions) =>
       setState((current) => ({ ...current, selectedTaskIds, selectedEvidenceIds, instructions })),
-    generatePackage: () => setState((current) => ({ ...current, packageGenerated: true })),
+    generatePackage: () =>
+      setState((current) => ({ ...current, packageGenerated: true, responseDraft: finalResponsePackage.draft })),
+    updateResponseDraft: (responseDraft) => setState((current) => ({ ...current, responseDraft })),
     sendPackageForReview: () => setState((current) => ({ ...current, responseSubmittedForReview: true })),
     submitPackage: () =>
       setState((current) => ({

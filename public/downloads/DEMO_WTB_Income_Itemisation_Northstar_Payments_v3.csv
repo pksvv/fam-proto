@@ -1,0 +1,17 @@
+DEMO DATA ONLY - NO REAL DATA
+Schedule A - WTB Operating Income Itemisation
+Entity,Northstar Payments Services LLC (fictional demo entity)
+Period under review,January 1 2024 through January 31 2025
+Currency / units,USD / whole dollars
+Synthetic source extract,US42_FY24_CLOSE_v3
+
+GL Account,Operating Income Category,Amount (USD)
+402010,Merchant discount revenue,184726381
+402020,Network assessment reimbursement revenue,28194550
+402030,Gateway and processing fee revenue,17806922
+402040,Chargeback administration fees,3479610
+402090,Implementation and other service fees,1248940
+402950,Volume incentive rebates (contra-revenue),-9617228
+,Total operating income itemised,225839175
+
+Scope note,Includes synthetic operating income categories responsive to IDR-2025-018. Non-operating foreign exchange gain is addressed separately in Schedule C.

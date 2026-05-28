@@ -1,0 +1,60 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Length 1983 >>
+stream
+q 1 0.96 0.85 rg 42 748 528 24 re f Q
+BT /F2 10 Tf 0.46 0.27 0.02 rg 52 756 Td (DEMO DATA ONLY - NO REAL DATA) Tj ET
+BT /F2 17 Tf 0.09 0.29 0.63 rg 42 715 Td (Schedule B - GL Control to WTB Reconciliation) Tj ET
+BT /F2 11 Tf 0.18 0.23 0.3 rg 42 687 Td (Response Context) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 673 Td (Entity: Northstar Payments Services LLC \(fictional demo entity\) | Period: January 1, 2024 through) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 659 Td (January 31, 2025 | Currency: USD) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 645 Td () Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 631 Td (Purpose: Reconcile operating income itemisation submitted in Schedule A to the synthetic general) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 617 Td (ledger control total.) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 603 Td () Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 589 Td () Tj ET
+BT /F2 11 Tf 0.18 0.23 0.3 rg 42 575 Td (Reconciliation Summary) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 561 Td (WTB operating income itemisation total: $225,839,175) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 547 Td () Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 533 Td (GL operating income control total: $225,839,175) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 519 Td () Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 505 Td (Unexplained variance: $0 - Reconciled.) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 491 Td () Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 477 Td () Tj ET
+BT /F2 11 Tf 0.18 0.23 0.3 rg 42 463 Td (Reviewer Conclusion) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 449 Td (The submitted synthetic operating income population agrees to the synthetic general ledger control) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 435 Td (total. Presentation and excluded-item decisions are documented separately in Schedule C.) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 421 Td () Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 407 Td () Tj ET
+BT /F1 8 Tf 0.43 0.48 0.55 rg 42 30 Td (Synthetic demonstration material - not for filing) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 5 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000185 00000 n 
+0000000260 00000 n 
+0000002295 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+2431
+%%EOF

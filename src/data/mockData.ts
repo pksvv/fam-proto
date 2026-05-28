@@ -61,6 +61,40 @@ export interface EvidenceDocument {
   traceability: string;
 }
 
+export interface TaskArtifact extends EvidenceDocument {
+  taskId: string;
+  stage: string;
+  recommended: boolean;
+  description: string;
+}
+
+export interface TaskCloseoutRecord {
+  taskId: string;
+  subject: string;
+  participants: string[];
+  messages: CollaborationNote[];
+  response: string;
+}
+
+export interface TrialBalanceRow {
+  account: string;
+  category: string;
+  amount: string;
+}
+
+export interface ReconciliationRow {
+  description: string;
+  amount: string;
+  treatment: string;
+}
+
+export interface AdjustmentRow {
+  reference: string;
+  item: string;
+  amount: string;
+  conclusion: string;
+}
+
 export interface ResponseStrategy {
   recommendation: string;
   explanation: string;
@@ -231,6 +265,144 @@ export const evidenceDocuments: EvidenceDocument[] = [
   },
 ];
 
+export const taskCloseoutRecords: TaskCloseoutRecord[] = [
+  {
+    taskId: "TA-201",
+    subject: "Revenue ledger extraction / income category mapping",
+    participants: ["R Kaus", "R Ali", "Revenue Systems"],
+    response: "Completed the FY2024 income account extraction for Northstar Payments Services LLC (demo entity) from synthetic ledger company code US42. Six revenue and contra-revenue accounts total USD 225,839,175.",
+    messages: [
+      { author: "R Ali", role: "Task Reviewer", time: "Jun 12 2026, 9:04 AM", text: "Please provide category-level income detail, including contra-revenue, and identify the extract version used for the response." },
+      { author: "R Kaus", role: "Task Assignee", time: "Jun 12 2026, 3:40 PM", text: "Uploaded DEMO_WTB_Income_Itemisation_Northstar_Payments_v3.csv from synthetic ledger extract US42_FY24_CLOSE_v3. Volume incentive rebates are shown as contra-revenue rather than netted into merchant discount revenue." },
+      { author: "R Ali", role: "Task Reviewer", time: "Jun 13 2026, 10:11 AM", text: "Reviewed account mapping and footing to USD 225,839,175. Approved the itemisation tab for final-response selection." },
+    ],
+  },
+  {
+    taskId: "TA-202",
+    subject: "WTB to GL reconciliation",
+    participants: ["R Ali", "R Kaus", "GL Reporting"],
+    response: "Reconciled the selected WTB income population of USD 225,839,175 to the synthetic GL control total. Two presentation reclasses were evaluated; no unexplained variance remains.",
+    messages: [
+      { author: "R Ali", role: "Task Assignee", time: "Jun 16 2026, 11:22 AM", text: "Prepared tie-out using DEMO_GL_Control_Summary_US42_FY24.pdf. The schedule separately identifies a rebate presentation reclass and excluded FX income." },
+      { author: "R Kaus", role: "Task Reviewer", time: "Jun 18 2026, 4:15 PM", text: "Tie-out reviewed against the synthetic control total. Residual variance is USD 0; close task." },
+    ],
+  },
+  {
+    taskId: "TA-203",
+    subject: "Adjustment and exclusion review",
+    participants: ["R Ali", "Federal Tax Compliance"],
+    response: "Validated presentation treatment for volume rebates and excluded non-operating foreign exchange income of USD 612,480 from the requested operating income itemisation.",
+    messages: [
+      { author: "R Ali", role: "Task Assignee", time: "Jun 20 2026, 2:08 PM", text: "Added memo AJ-01 documenting volume incentive rebates as contra-revenue and AJ-02 excluding synthetic FX gain of USD 612,480 as outside the requested operating income population." },
+      { author: "R Kaus", role: "Task Reviewer", time: "Jun 21 2026, 9:30 AM", text: "Treatments agree to the itemisation and reconciliation schedules. Suitable for inclusion in the draft response." },
+    ],
+  },
+  {
+    taskId: "TA-204",
+    subject: "Supporting document sampling",
+    participants: ["R Kaus", "Tax Accounting"],
+    response: "Prepared sample support index for three illustrative revenue streams and retained it as an optional workpaper should transaction-level support be requested.",
+    messages: [
+      { author: "R Kaus", role: "Task Assignee", time: "Jun 23 2026, 1:42 PM", text: "Prepared internal sample index covering merchant discount, processing fee and implementation fee streams. The IDR asks for itemisation, so invoice support remains optional." },
+      { author: "R Ali", role: "Task Reviewer", time: "Jun 24 2026, 9:20 AM", text: "Accepted. Retain the sampling index in the response workpapers unless transaction support is subsequently requested." },
+    ],
+  },
+  {
+    taskId: "TA-205",
+    subject: "Reviewer summary and sign-off",
+    participants: ["R Ali", "R Kaus"],
+    response: "Recorded closeout review, confirmed WTB-to-GL footing and designated three schedules for inclusion in the draft IDR response.",
+    messages: [
+      { author: "R Ali", role: "Task Assignee", time: "Jun 26 2026, 10:05 AM", text: "All tasks are closed. Proposed package includes the WTB itemisation v3, GL reconciliation summary and adjustments/exclusions memo." },
+      { author: "R Kaus", role: "Task Reviewer", time: "Jun 26 2026, 11:14 AM", text: "Closeout approved after checking total income of USD 225,839,175 and residual reconciliation variance of USD 0. Final package selection can begin." },
+    ],
+  },
+];
+
+export const taskArtifacts: TaskArtifact[] = [
+  {
+    id: "EV-WTB",
+    taskId: "TA-201",
+    name: "DEMO_WTB_Income_Itemisation_Northstar_Payments_v3.csv",
+    owner: "Revenue Systems",
+    type: "Dataset / CSV",
+    stage: "Assignee submission",
+    included: true,
+    recommended: true,
+    traceability: "Selected demo entity income lines from a synthetic working trial balance.",
+    description: "Synthetic ledger extract US42_FY24_CLOSE_v3 with account-level income and contra-revenue detail.",
+  },
+  {
+    id: "EV-GL",
+    taskId: "TA-202",
+    name: "DEMO_GL_Control_to_WTB_Reconciliation_US42_FY24.pdf",
+    owner: "GL Reporting",
+    type: "Reconciliation",
+    stage: "Reviewer-approved",
+    included: true,
+    recommended: true,
+    traceability: "Ties selected synthetic WTB income lines to the demo GL total.",
+    description: "Control-total tie-out, presentation reclasses and zero residual variance conclusion.",
+  },
+  {
+    id: "EV-ADJ",
+    taskId: "TA-203",
+    name: "DEMO_Adjustments_and_Exclusions_Memo.pdf",
+    owner: "Federal Tax Compliance",
+    type: "Reviewer memo",
+    stage: "Reviewer-approved",
+    included: true,
+    recommended: true,
+    traceability: "Explains synthetic exclusions outside the income total.",
+    description: "AJ-01 rebate presentation and AJ-02 excluded non-operating FX income analysis.",
+  },
+  {
+    id: "EV-SCOPE",
+    taskId: "TA-204",
+    name: "DEMO_Revenue_Sampling_Index_Internal_Only.csv",
+    owner: "Tax Accounting",
+    type: "Dataset / CSV",
+    stage: "Assignee submission",
+    included: false,
+    recommended: false,
+    traceability: "Documents why underlying contracts were not selected.",
+    description: "Optional internal index of sampled revenue streams; not required for the initial IDR response.",
+  },
+  {
+    id: "EV-SIGN",
+    taskId: "TA-205",
+    name: "DEMO_IDR_Closeout_Signoff.pdf",
+    owner: "Federal Tax Compliance",
+    type: "Approval record",
+    stage: "Final sign-off",
+    included: false,
+    recommended: false,
+    traceability: "Records the completed human closeout.",
+    description: "Retained as internal approval evidence.",
+  },
+];
+
+export const demoTrialBalanceRows: TrialBalanceRow[] = [
+  { account: "402010", category: "Merchant discount revenue", amount: "$184,726,381" },
+  { account: "402020", category: "Network assessment reimbursement revenue", amount: "$28,194,550" },
+  { account: "402030", category: "Gateway and processing fee revenue", amount: "$17,806,922" },
+  { account: "402040", category: "Chargeback administration fees", amount: "$3,479,610" },
+  { account: "402090", category: "Implementation and other service fees", amount: "$1,248,940" },
+  { account: "402950", category: "Volume incentive rebates (contra-revenue)", amount: "($9,617,228)" },
+  { account: "", category: "Total operating income itemised", amount: "$225,839,175" },
+];
+
+export const demoReconciliationRows: ReconciliationRow[] = [
+  { description: "WTB operating income itemisation total", amount: "$225,839,175", treatment: "Per Schedule A" },
+  { description: "GL operating income control total", amount: "$225,839,175", treatment: "Per Schedule B" },
+  { description: "Unexplained variance", amount: "$0", treatment: "Reconciled" },
+];
+
+export const demoAdjustmentRows: AdjustmentRow[] = [
+  { reference: "AJ-01", item: "Volume incentive rebates", amount: "($9,617,228)", conclusion: "Presented as contra-revenue in Schedule A; included in total." },
+  { reference: "AJ-02", item: "Foreign exchange gain - non-operating", amount: "$612,480", conclusion: "Excluded from operating income population; outside request scope." },
+];
+
 export const responseStrategy: ResponseStrategy = {
   recommendation:
     "Provide a category-level income schedule, tie it to the GL summary, and separately explain adjustments and exclusions.",
@@ -277,13 +449,14 @@ export const collaborationNotes: CollaborationNote[] = [
 
 export const finalResponsePackage: FinalResponsePackage = {
   draft:
-    "In response to IDR-2025-018, American Express Services Corp. provides the requested income itemization for the audit period Jan 01 2024 to Jan 31 2025. Income is organized by category in the attached schedule and reconciled to the general ledger reporting summary. Identified adjustments and exclusions are stated separately in the reviewer memorandum with supporting rationale.",
+    "DEMO DATA ONLY - NO REAL DATA\n\nRe: IDR-2025-018 - Income Itemisation Details\nEntity: Northstar Payments Services LLC (fictional demo entity)\nPeriod under review: January 1, 2024 through January 31, 2025\nCurrency: USD\n\nIn response to the request for income itemisation details, we provide Schedule A, a synthetic working trial balance (WTB) extract identifying the operating income accounts included in the response population. The schedule reports total itemised operating income of $225,839,175, comprising merchant discount revenue, network assessment reimbursement revenue, gateway and processing fees, chargeback administration fees, implementation and other service fees, less volume incentive rebates recorded as contra-revenue.\n\nSchedule B reconciles the Schedule A itemisation total to the synthetic general ledger operating income control total of $225,839,175. The reconciliation results in an unexplained variance of $0.\n\nSchedule C documents the principal presentation and scope considerations. Volume incentive rebates of ($9,617,228) are presented as contra-revenue within the operating income population. A synthetic non-operating foreign exchange gain of $612,480 was evaluated and excluded from the itemisation because it falls outside the operating income population responsive to this request.\n\nEnclosures submitted with this response:\n1. DEMO_WTB_Income_Itemisation_Northstar_Payments_v3.csv (Schedule A)\n2. DEMO_GL_Control_to_WTB_Reconciliation_US42_FY24.pdf (Schedule B)\n3. DEMO_Adjustments_and_Exclusions_Memo.pdf (Schedule C)\n\nBased on the review procedures documented in the enclosed schedules, the submitted income itemisation is complete for the defined synthetic response population and agrees to the corresponding demo GL control total.",
   evidenceSummary:
-    "Three selected supporting artifacts establish category-level itemization, GL reconciliation, and documented treatment of exclusions.",
+    "Three selected supporting schedules establish account-level income itemisation, reconciliation to a GL control total, and documented treatment of contra-revenue and excluded non-operating income.",
   reviewerChecks: [
-    "Audit period agrees to the IDR request.",
-    "Itemized category total reconciles to the GL summary.",
-    "Adjustments and exclusions receive separate reviewer confirmation.",
+    "Entity, currency and period agree to the response cover text and Schedule A.",
+    "Schedule A itemised total of USD 225,839,175 agrees to Schedule B GL control total.",
+    "Schedule C treatment of rebate contra-revenue and excluded FX income is appropriate for the response population.",
+    "Every submitted enclosure is marked as synthetic demo material before external presentation.",
   ],
   assumptions: [
     "No additional sampled contracts are requested unless the regulator follows up.",
@@ -291,17 +464,17 @@ export const finalResponsePackage: FinalResponsePackage = {
   ],
   lineage: [
     {
-      source: "TA-201 / FY2024_Income_Itemization_Schedule.xlsx",
+      source: "TA-201 / DEMO_WTB_Income_Itemisation_Northstar_Payments_v3.csv",
       supports: "Income itemization by category",
       approvedBy: "R Ali",
     },
     {
-      source: "TA-202 / GL_to_Tax_Reconciliation_Summary.pdf",
+      source: "TA-202 / DEMO_GL_Control_to_WTB_Reconciliation_US42_FY24.pdf",
       supports: "Reconciliation to GL reporting summary",
       approvedBy: "R Kaus",
     },
     {
-      source: "TA-203 / Adjustments_and_Exclusions_Memo.pdf",
+      source: "TA-203 / DEMO_Adjustments_and_Exclusions_Memo.pdf",
       supports: "Separate exclusion rationale",
       approvedBy: "R Ali",
     },

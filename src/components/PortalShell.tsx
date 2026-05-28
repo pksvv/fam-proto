@@ -59,7 +59,7 @@ export function PortalShell({
         </header>
         <div className="flex min-h-0 flex-1">
           <main className="workbench-canvas min-w-0 flex-1 p-5 md:p-7">{children}</main>
-          <CopilotPanel events={events} messages={messages} title={copilotTitle} />
+          <CopilotPanel copilotKey={copilotKey} events={events} messages={messages} title={copilotTitle} />
         </div>
       </div>
     </div>
