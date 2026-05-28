@@ -17,7 +17,8 @@ Static prototype login and naming safety update.
 - README demo credentials documented.
 - `npm run build` passed on May 28 2026.
 - Browser verification passed on May 28 2026: wrong credentials show an inline error, correct credentials navigate to the home portal, and the portal header shows `AI.Tax.Copilot`.
-- Ready to commit and push this milestone.
+- Milestone implementation committed as `bf28e9c`.
+- Ready to push `main` to `origin`.
 
 ## Files Changed
 
@@ -54,11 +55,11 @@ Static prototype login and naming safety update.
 
 ## Last Commit Hash
 
-- `57bed38`
+- `bf28e9c` (`Add static prototype login`)
 
 ## Push Status
 
-- Current milestone changes not pushed yet; next step is commit, then push `main` to `origin`.
+- Milestone commit `bf28e9c` not pushed yet; next step is push `main` to `origin`.
 
 ## Known Issues
 
@@ -68,7 +69,7 @@ Static prototype login and naming safety update.
 
 ## Exact Next Step If Interrupted
 
-Open `PROGRESS.md`, run `git status`, then commit the completed login/naming milestone, push `main` to `origin`, and update this file if the push result is not already recorded.
+Open `PROGRESS.md`, run `git status`, then push `main` to `origin` and update this file if the push result is not already recorded.
 
 ## Historical Guardrails
 
