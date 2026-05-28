@@ -13,7 +13,14 @@ The interactive prototype supports local document selection and preview, editabl
 - Typed local mock data only
 - Static export output in `out/`
 
-There is no backend, authentication, database, API route, middleware, server action, or runtime external service.
+There is no backend authentication, database, API route, middleware, server action, or runtime external service.
+
+## Demo Login
+
+This is a frontend-only static prototype login for demo purposes. It does not call a backend, create a session on a server, read environment variables, or perform real authentication.
+
+- Username: `fam-copilot`
+- Password: `welcome@12345`
 
 ## Local Development
 
@@ -59,7 +66,7 @@ When moving this prototype into the office/internal repository:
 1. Bring across source files and synthetic fixtures, not local reference screenshots or original IDR material.
 2. If that repository deploys as a GitHub Pages project site, replace `/fam-proto` with its repository name at build time, for example `NEXT_PUBLIC_BASE_PATH=/internal-audit-portal npm run build`.
 3. If the deployment uses a custom domain at its root, build without a base path.
-4. Keep the application static: do not introduce confidential data, runtime secrets, backend calls, authentication assumptions, or server-only Next.js features.
+4. Keep the application static: do not introduce confidential data, runtime secrets, backend calls, real authentication assumptions, or server-only Next.js features.
 5. Update the included Pages workflow if the internal site is root-hosted behind a custom domain; project-site repositories need no hard-coded repo-name change because the workflow reads the target repository name.
 
 ## Synthetic Scenario
@@ -102,4 +109,4 @@ The final screen demonstrates reviewer approval changing a draft package to `Rea
 - Navigation uses static App Router links and trailing-slash paths suitable for GitHub Pages directories.
 - Mock data is bundled locally; there are no requests to business systems or external APIs.
 - The copilot interactions are deterministic UI demonstrations, not live AI calls.
-- No API routes, server actions, middleware, SSR, authentication, database, secret, or server runtime is required.
+- No API routes, server actions, middleware, SSR, real authentication, database, secret, or server runtime is required.

@@ -39,14 +39,14 @@ export default function DocumentRequestReviewPage() {
                 <InputField label="Document Request ID" onChange={(value) => updateDocumentRequest("id", value)} value={state.documentRequest.id} />
                 <InputField label="Title" onChange={(value) => updateDocumentRequest("title", value)} required value={state.documentRequest.title} />
                 <InputField label="Due Date" onChange={(value) => updateDocumentRequest("dueDate", value)} required value={state.documentRequest.dueDate} />
-                <SelectField label="Owner" onChange={(value) => updateDocumentRequest("owner", value)} options={["R Kaus", "R Ali"]} value={state.documentRequest.owner} />
+                <SelectField label="Owner" onChange={(value) => updateDocumentRequest("owner", value)} options={["AI.Tax.Copilot", "R Ali"]} value={state.documentRequest.owner} />
                 <div className="md:col-span-2 2xl:col-span-3">
                   <label className="workbench-field">
                     <span>IDR Question*</span>
                     <textarea className="workbench-textarea min-h-[88px]" onChange={(event) => updateDocumentRequest("question", event.target.value)} value={state.documentRequest.question} />
                   </label>
                 </div>
-                <SelectField label="DR Reviewer" onChange={(value) => updateDocumentRequest("reviewer", value)} options={["R Ali", "R Kaus"]} value={state.documentRequest.reviewer} />
+                <SelectField label="DR Reviewer" onChange={(value) => updateDocumentRequest("reviewer", value)} options={["R Ali", "AI.Tax.Copilot"]} value={state.documentRequest.reviewer} />
               </div>
               <label className="workbench-field mt-5">
                 <span>Required Evidence (one item per line)</span>

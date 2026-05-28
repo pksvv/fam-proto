@@ -240,7 +240,7 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
                 notes: [
                   ...task.notes,
                   {
-                    author: "R Kaus",
+                    author: "AI.Tax.Copilot",
                     role: "Task Assignee",
                     time: "Just now",
                     text,

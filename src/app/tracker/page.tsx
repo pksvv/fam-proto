@@ -10,9 +10,9 @@ const metrics = [
 ];
 
 const portfolio = [
-  { title: "IRS Income Tax Audit FY2024", id: "PA-2025-IRS-104", due: "Jul 01 2026", status: "Ready for Response" as const, owner: "R Kaus" },
+  { title: "IRS Income Tax Audit FY2024", id: "PA-2025-IRS-104", due: "Jul 01 2026", status: "Ready for Response" as const, owner: "AI.Tax.Copilot" },
   { title: "State Apportionment Review FY2024", id: "PA-2025-ST-061", due: "Jul 14 2026", status: "Pending Review" as const, owner: "R Ali" },
-  { title: "Federal Credit Substantiation FY2025", id: "PA-2026-FC-012", due: "Aug 02 2026", status: "In Progress" as const, owner: "R Kaus" },
+  { title: "Federal Credit Substantiation FY2025", id: "PA-2026-FC-012", due: "Aug 02 2026", status: "In Progress" as const, owner: "AI.Tax.Copilot" },
 ];
 
 export default function TrackerPage() {

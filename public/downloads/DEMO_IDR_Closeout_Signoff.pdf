@@ -12,7 +12,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
 endobj
 5 0 obj
-<< /Length 1127 >>
+<< /Length 1135 >>
 stream
 q 1 0.96 0.85 rg 42 748 528 24 re f Q
 BT /F2 10 Tf 0.46 0.27 0.02 rg 52 756 Td (DEMO DATA ONLY - NO REAL DATA) Tj ET
@@ -23,8 +23,8 @@ BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 659 Td (Schedule A, Schedule B and Schedule C 
 BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 645 Td () Tj ET
 BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 631 Td () Tj ET
 BT /F2 11 Tf 0.18 0.23 0.3 rg 42 617 Td (Approval Record) Tj ET
-BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 603 Td (Response population checked: $225,839,175 | Residual reconciliation variance: $0 | Reviewer: R) Tj ET
-BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 589 Td (Kaus | Status: Approved for response drafting.) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 603 Td (Response population checked: $225,839,175 | Residual reconciliation variance: $0 | Reviewer:) Tj ET
+BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 589 Td (AI.Tax.Copilot | Status: Approved for response drafting.) Tj ET
 BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 575 Td () Tj ET
 BT /F1 9.5 Tf 0.18 0.23 0.3 rg 42 561 Td () Tj ET
 BT /F1 8 Tf 0.43 0.48 0.55 rg 42 30 Td (Synthetic demonstration material - not for filing) Tj ET
@@ -41,9 +41,9 @@ xref
 0000000115 00000 n 
 0000000185 00000 n 
 0000000260 00000 n 
-0000001439 00000 n 
+0000001447 00000 n 
 trailer
 << /Size 7 /Root 1 0 R >>
 startxref
-1575
+1583
 %%EOF

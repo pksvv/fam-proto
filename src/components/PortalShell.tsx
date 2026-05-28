@@ -52,8 +52,8 @@ export function PortalShell({
               <p className="text-xl font-semibold text-brand">Audit management</p>
             </div>
             <div className="flex items-center gap-3 text-sm font-semibold text-slate-700">
-              <span>R Kaus</span>
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-white">R</span>
+              <span>AI.Tax.Copilot</span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-white">AI</span>
             </div>
           </div>
         </header>

@@ -125,10 +125,10 @@ await createPdf("DEMO_Adjustments_and_Exclusions_Memo.pdf", "Schedule C - Adjust
   { heading: "Scope", paragraphs: ["This memorandum documents presentation and scope decisions evaluated in preparing the synthetic income itemisation response for IDR-2025-018."] },
   { heading: "AJ-01 - Volume Incentive Rebates", paragraphs: ["Amount: ($9,617,228). Conclusion: The amount represents contra-revenue associated with operating revenue streams and is included in Schedule A as a separate negative income line."] },
   { heading: "AJ-02 - Foreign Exchange Gain", paragraphs: ["Amount: $612,480. Conclusion: The synthetic foreign exchange gain is non-operating income and has been excluded from the operating income population responsive to this request."] },
-  { heading: "Approval", paragraphs: ["Prepared by: Federal Tax Compliance | Reviewed by: R Kaus | Conclusion: Treatments agree to Schedule A and Schedule B."] },
+  { heading: "Approval", paragraphs: ["Prepared by: Federal Tax Compliance | Reviewed by: AI.Tax.Copilot | Conclusion: Treatments agree to Schedule A and Schedule B."] },
 ]);
 await createPdf("DEMO_IDR_Closeout_Signoff.pdf", "Internal IDR Closeout Sign-off", [
   { heading: "Completion Summary", paragraphs: ["All five synthetic IDR tasks were closed following human review. The response package includes Schedule A, Schedule B and Schedule C for the demonstration response."] },
-  { heading: "Approval Record", paragraphs: ["Response population checked: $225,839,175 | Residual reconciliation variance: $0 | Reviewer: R Kaus | Status: Approved for response drafting."] },
+  { heading: "Approval Record", paragraphs: ["Response population checked: $225,839,175 | Residual reconciliation variance: $0 | Reviewer: AI.Tax.Copilot | Status: Approved for response drafting."] },
 ]);
 console.log(`Generated synthetic CSV and PDF support assets in ${outputDir}`);

@@ -152,7 +152,7 @@ export const auditRequest: AuditRequest = {
   market: "United States of America",
   period: "Jan 01 2024 to Jan 31 2025",
   status: "Pending Review",
-  owner: "R Kaus",
+  owner: "AI.Tax.Copilot",
 };
 
 export const documentRequest: DocumentRequest = {
@@ -161,7 +161,7 @@ export const documentRequest: DocumentRequest = {
   question: "Provide income itemization details.",
   dueDate: "Jul 01 2026",
   status: "Draft",
-  owner: "R Kaus",
+  owner: "AI.Tax.Copilot",
   reviewer: "R Ali",
   requiredEvidence: [
     "Income itemization schedule by category",
@@ -174,7 +174,7 @@ export const tasks: AuditTask[] = [
   {
     id: "TA-201",
     title: "Extract revenue ledger by income category",
-    assignee: "R Kaus",
+    assignee: "AI.Tax.Copilot",
     team: "Revenue Systems",
     reviewer: "R Ali",
     dueDate: "Jun 12 2026",
@@ -188,7 +188,7 @@ export const tasks: AuditTask[] = [
     title: "Reconcile GL income accounts to tax reporting summary",
     assignee: "R Ali",
     team: "GL Reporting",
-    reviewer: "R Kaus",
+    reviewer: "AI.Tax.Copilot",
     dueDate: "Jun 18 2026",
     dependency: "TA-201",
     confidence: 94,
@@ -200,7 +200,7 @@ export const tasks: AuditTask[] = [
     title: "Validate adjustments and exclusions",
     assignee: "R Ali",
     team: "Federal Tax Compliance",
-    reviewer: "R Kaus",
+    reviewer: "AI.Tax.Copilot",
     dueDate: "Jun 21 2026",
     dependency: "TA-202",
     confidence: 91,
@@ -210,7 +210,7 @@ export const tasks: AuditTask[] = [
   {
     id: "TA-204",
     title: "Compile supporting invoices/contracts if applicable",
-    assignee: "R Kaus",
+    assignee: "AI.Tax.Copilot",
     team: "Tax Accounting",
     reviewer: "R Ali",
     dueDate: "Jun 24 2026",
@@ -224,7 +224,7 @@ export const tasks: AuditTask[] = [
     title: "Prepare reviewer summary and sign-off",
     assignee: "R Ali",
     team: "Federal Tax Compliance",
-    reviewer: "R Kaus",
+    reviewer: "AI.Tax.Copilot",
     dueDate: "Jun 26 2026",
     dependency: "TA-201 to TA-204",
     confidence: 97,
@@ -269,22 +269,22 @@ export const taskCloseoutRecords: TaskCloseoutRecord[] = [
   {
     taskId: "TA-201",
     subject: "Revenue ledger extraction / income category mapping",
-    participants: ["R Kaus", "R Ali", "Revenue Systems"],
+    participants: ["AI.Tax.Copilot", "R Ali", "Revenue Systems"],
     response: "Completed the FY2024 income account extraction for Northstar Payments Services LLC (demo entity) from synthetic ledger company code US42. Six revenue and contra-revenue accounts total USD 225,839,175.",
     messages: [
       { author: "R Ali", role: "Task Reviewer", time: "Jun 12 2026, 9:04 AM", text: "Please provide category-level income detail, including contra-revenue, and identify the extract version used for the response." },
-      { author: "R Kaus", role: "Task Assignee", time: "Jun 12 2026, 3:40 PM", text: "Uploaded DEMO_WTB_Income_Itemisation_Northstar_Payments_v3.csv from synthetic ledger extract US42_FY24_CLOSE_v3. Volume incentive rebates are shown as contra-revenue rather than netted into merchant discount revenue." },
+      { author: "AI.Tax.Copilot", role: "Task Assignee", time: "Jun 12 2026, 3:40 PM", text: "Uploaded DEMO_WTB_Income_Itemisation_Northstar_Payments_v3.csv from synthetic ledger extract US42_FY24_CLOSE_v3. Volume incentive rebates are shown as contra-revenue rather than netted into merchant discount revenue." },
       { author: "R Ali", role: "Task Reviewer", time: "Jun 13 2026, 10:11 AM", text: "Reviewed account mapping and footing to USD 225,839,175. Approved the itemisation tab for final-response selection." },
     ],
   },
   {
     taskId: "TA-202",
     subject: "WTB to GL reconciliation",
-    participants: ["R Ali", "R Kaus", "GL Reporting"],
+    participants: ["R Ali", "AI.Tax.Copilot", "GL Reporting"],
     response: "Reconciled the selected WTB income population of USD 225,839,175 to the synthetic GL control total. Two presentation reclasses were evaluated; no unexplained variance remains.",
     messages: [
       { author: "R Ali", role: "Task Assignee", time: "Jun 16 2026, 11:22 AM", text: "Prepared tie-out using DEMO_GL_Control_Summary_US42_FY24.pdf. The schedule separately identifies a rebate presentation reclass and excluded FX income." },
-      { author: "R Kaus", role: "Task Reviewer", time: "Jun 18 2026, 4:15 PM", text: "Tie-out reviewed against the synthetic control total. Residual variance is USD 0; close task." },
+      { author: "AI.Tax.Copilot", role: "Task Reviewer", time: "Jun 18 2026, 4:15 PM", text: "Tie-out reviewed against the synthetic control total. Residual variance is USD 0; close task." },
     ],
   },
   {
@@ -294,27 +294,27 @@ export const taskCloseoutRecords: TaskCloseoutRecord[] = [
     response: "Validated presentation treatment for volume rebates and excluded non-operating foreign exchange income of USD 612,480 from the requested operating income itemisation.",
     messages: [
       { author: "R Ali", role: "Task Assignee", time: "Jun 20 2026, 2:08 PM", text: "Added memo AJ-01 documenting volume incentive rebates as contra-revenue and AJ-02 excluding synthetic FX gain of USD 612,480 as outside the requested operating income population." },
-      { author: "R Kaus", role: "Task Reviewer", time: "Jun 21 2026, 9:30 AM", text: "Treatments agree to the itemisation and reconciliation schedules. Suitable for inclusion in the draft response." },
+      { author: "AI.Tax.Copilot", role: "Task Reviewer", time: "Jun 21 2026, 9:30 AM", text: "Treatments agree to the itemisation and reconciliation schedules. Suitable for inclusion in the draft response." },
     ],
   },
   {
     taskId: "TA-204",
     subject: "Supporting document sampling",
-    participants: ["R Kaus", "Tax Accounting"],
+    participants: ["AI.Tax.Copilot", "Tax Accounting"],
     response: "Prepared sample support index for three illustrative revenue streams and retained it as an optional workpaper should transaction-level support be requested.",
     messages: [
-      { author: "R Kaus", role: "Task Assignee", time: "Jun 23 2026, 1:42 PM", text: "Prepared internal sample index covering merchant discount, processing fee and implementation fee streams. The IDR asks for itemisation, so invoice support remains optional." },
+      { author: "AI.Tax.Copilot", role: "Task Assignee", time: "Jun 23 2026, 1:42 PM", text: "Prepared internal sample index covering merchant discount, processing fee and implementation fee streams. The IDR asks for itemisation, so invoice support remains optional." },
       { author: "R Ali", role: "Task Reviewer", time: "Jun 24 2026, 9:20 AM", text: "Accepted. Retain the sampling index in the response workpapers unless transaction support is subsequently requested." },
     ],
   },
   {
     taskId: "TA-205",
     subject: "Reviewer summary and sign-off",
-    participants: ["R Ali", "R Kaus"],
+    participants: ["R Ali", "AI.Tax.Copilot"],
     response: "Recorded closeout review, confirmed WTB-to-GL footing and designated three schedules for inclusion in the draft IDR response.",
     messages: [
       { author: "R Ali", role: "Task Assignee", time: "Jun 26 2026, 10:05 AM", text: "All tasks are closed. Proposed package includes the WTB itemisation v3, GL reconciliation summary and adjustments/exclusions memo." },
-      { author: "R Kaus", role: "Task Reviewer", time: "Jun 26 2026, 11:14 AM", text: "Closeout approved after checking total income of USD 225,839,175 and residual reconciliation variance of USD 0. Final package selection can begin." },
+      { author: "AI.Tax.Copilot", role: "Task Reviewer", time: "Jun 26 2026, 11:14 AM", text: "Closeout approved after checking total income of USD 225,839,175 and residual reconciliation variance of USD 0. Final package selection can begin." },
     ],
   },
 ];
@@ -434,7 +434,7 @@ export const collaborationNotes: CollaborationNote[] = [
     text: "Please clarify whether the itemization includes adjustment categories separately from reported income.",
   },
   {
-    author: "R Kaus",
+    author: "AI.Tax.Copilot",
     role: "Task Assignee",
     time: "Jun 13 2026, 2:46 PM",
     text: "Monthly income itemization details have been provided by category. Adjustments and exclusions are separated in the supporting memo.",
@@ -471,7 +471,7 @@ export const finalResponsePackage: FinalResponsePackage = {
     {
       source: "TA-202 / DEMO_GL_Control_to_WTB_Reconciliation_US42_FY24.pdf",
       supports: "Reconciliation to GL reporting summary",
-      approvedBy: "R Kaus",
+      approvedBy: "AI.Tax.Copilot",
     },
     {
       source: "TA-203 / DEMO_Adjustments_and_Exclusions_Memo.pdf",

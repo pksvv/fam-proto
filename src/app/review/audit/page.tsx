@@ -42,7 +42,7 @@ export default function ParentAuditReviewPage() {
                 <InputField label="Market" onChange={(value) => updateAudit("market", value)} required value={state.audit.market} />
                 <InputField label="Period Under Audit (From)" onChange={(value) => updateAuditDates(value, state.auditEndDate)} type="date" value={state.auditStartDate} />
                 <InputField label="Period Under Audit (To)" onChange={(value) => updateAuditDates(state.auditStartDate, value)} type="date" value={state.auditEndDate} />
-                <SelectField label="Owner" onChange={(value) => updateAudit("owner", value)} options={["R Kaus", "R Ali"]} value={state.audit.owner} />
+                <SelectField label="Owner" onChange={(value) => updateAudit("owner", value)} options={["AI.Tax.Copilot", "R Ali"]} value={state.audit.owner} />
               </div>
               <div className="mt-7 flex gap-3">
                 <button className="workbench-primary disabled:opacity-50" disabled={!state.extracted} onClick={() => setConfirming(true)} type="button">

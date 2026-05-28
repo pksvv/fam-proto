@@ -41,7 +41,7 @@ export default function TaskStrategyPage() {
                   </div>
                   <div className="grid gap-3 lg:grid-cols-[2fr_1fr_1.15fr_1fr_1.1fr]">
                     <TableInput label="Title" onChange={(value) => updateTask(task.id, { title: value })} value={task.title} />
-                    <TableSelect label="Assignee" onChange={(value) => updateTask(task.id, { assignee: value })} options={["R Kaus", "R Ali"]} value={task.assignee} />
+                    <TableSelect label="Assignee" onChange={(value) => updateTask(task.id, { assignee: value })} options={["AI.Tax.Copilot", "R Ali"]} value={task.assignee} />
                     <TableSelect label="Team" onChange={(value) => updateTask(task.id, { team: value })} options={["Revenue Systems", "GL Reporting", "Tax Accounting", "Federal Tax Compliance"]} value={task.team} />
                     <TableInput label="Due Date" onChange={(value) => updateTask(task.id, { dueDate: value })} value={task.dueDate} />
                     <TableInput label="Dependency" onChange={(value) => updateTask(task.id, { dependency: value })} value={task.dependency} />

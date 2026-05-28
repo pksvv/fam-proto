@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { StaticLoginGate } from "@/components/StaticLoginGate";
 import { WorkflowProvider } from "@/components/WorkflowContext";
 import "./globals.css";
 
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <WorkflowProvider>{children}</WorkflowProvider>
+        <StaticLoginGate>
+          <WorkflowProvider>{children}</WorkflowProvider>
+        </StaticLoginGate>
       </body>
     </html>
   );
