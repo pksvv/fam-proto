@@ -32,7 +32,7 @@ export default function TaskStrategyPage() {
             <p className="mb-5 border-l-4 border-amber-400 bg-amber-50 p-4 text-sm">
               Task strategy agent generated recommended tasks. You can change titles, owners, teams, dates and dependencies before creation.
             </p>
-            <div className="space-y-4">
+            <div className="space-y-4" data-tour-id="task-strategy-list">
               {state.tasks.map((task) => (
                 <article className="rounded border border-slate-200 bg-slate-50/40 p-4" key={task.id}>
                   <div className="mb-3 flex items-center justify-between">
@@ -51,7 +51,7 @@ export default function TaskStrategyPage() {
               ))}
             </div>
             <div className="mt-6 flex gap-3">
-              <button className="workbench-primary" onClick={() => setConfirming(true)} type="button">Create Tasks</button>
+              <button className="workbench-primary" data-tour-id="create-tasks" onClick={() => setConfirming(true)} type="button">Create Tasks</button>
               <button className="workbench-secondary" onClick={() => router.push("/response-strategy")} type="button">Back</button>
             </div>
           </div>
@@ -91,4 +91,3 @@ function TableSelect({ label, value, onChange, options }: { label: string; value
     </label>
   );
 }
-

@@ -32,9 +32,9 @@ export function FinalApproval() {
             <SuccessMessage>Response Creator draft sent to the human reviewer. Edit the draft above, then record final approval.</SuccessMessage>
           ) : null}
           {!state.responseSubmittedForReview ? (
-            <button className="workbench-primary" onClick={() => setAction("send")} type="button">Send Draft to Human Review</button>
+            <button className="workbench-primary" data-tour-id="send-human-review" onClick={() => setAction("send")} type="button">Send Draft to Human Review</button>
           ) : (
-            <button className="workbench-primary" onClick={() => setAction("approve")} type="button">Approve Final Response</button>
+            <button className="workbench-primary" data-tour-id="approve-final-response" onClick={() => setAction("approve")} type="button">Approve Final Response</button>
           )}
         </div>
       )}

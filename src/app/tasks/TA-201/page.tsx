@@ -50,6 +50,7 @@ export default function TaskDetailPage() {
               <span>Task Response Description*</span>
               <textarea
                 className="workbench-textarea min-h-[140px]"
+                data-tour-id="task-response"
                 disabled={isClosed}
                 onChange={(event) => updateTask(task.id, { response: event.target.value })}
                 placeholder="Add your response..."
@@ -63,14 +64,16 @@ export default function TaskDetailPage() {
             ) : (
               <div className="mt-4 flex flex-wrap gap-3">
                 <button className="workbench-primary" onClick={() => updateTask(task.id, { status: "In Progress" })} type="button">Save Draft</button>
-                <button className="workbench-secondary disabled:opacity-40" disabled={!task.response.trim()} onClick={() => setConfirmAction("submit")} type="button">Submit to Reviewer</button>
+                <button className="workbench-secondary disabled:opacity-40" data-tour-id="submit-task-review" disabled={!task.response.trim()} onClick={() => setConfirmAction("submit")} type="button">Submit to Reviewer</button>
                 {task.status === "Pending Review" ? (
-                  <button className="workbench-primary" onClick={() => setConfirmAction("close")} type="button">Approve and Close Task</button>
+                  <button className="workbench-primary" data-tour-id="approve-close-task" onClick={() => setConfirmAction("close")} type="button">Approve and Close Task</button>
                 ) : null}
               </div>
             )}
             <div className="mt-8">
-              <Tabs active={tab} items={["Notes", "Documents"]} onChange={setTab} />
+              <div data-tour-id="task-documents-tab">
+                <Tabs active={tab} items={["Notes", "Documents"]} onChange={setTab} />
+              </div>
               {tab === "Notes" ? (
                 <div className="pt-5">
                   <div className="space-y-3">
@@ -115,13 +118,13 @@ export default function TaskDetailPage() {
           <div className="flex justify-end gap-3">
             <Link className="workbench-secondary inline-block" href="/document-requests/IDR-2025-018">Complete Other Tasks</Link>
             {allTasksClosed ? (
-              <Link className="workbench-primary inline-block" href="/final-response">Build Final DR Response</Link>
+              <Link className="workbench-primary inline-block" data-tour-id="open-final-response" href="/final-response">Build Final DR Response</Link>
             ) : (
               <div className="flex flex-wrap items-center justify-end gap-3">
                 <span className="rounded border border-amber-300 bg-amber-50 px-5 py-3 text-sm text-amber-800">
                   Close all IDR tasks before a live final response is created.
                 </span>
-                <Link className="workbench-primary inline-block" href="/final-response">Open Closeout Review Demo</Link>
+                <Link className="workbench-primary inline-block" data-tour-id="open-final-response" href="/final-response">Open Closeout Review Demo</Link>
               </div>
             )}
           </div>

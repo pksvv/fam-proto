@@ -246,7 +246,7 @@ export function ResponsePackageDownload() {
         {selectedAssets.map((artifact) => <p className="mt-1" key={artifact.id}>{downloadableAssets[artifact.id]}</p>)}
         <p className="mt-1">PACKAGE_MANIFEST.txt</p>
       </div>
-      <button className="workbench-primary mt-4" disabled={status === "working"} onClick={downloadPackage} type="button">
+      <button className="workbench-primary mt-4" data-tour-id="download-final-package" disabled={status === "working"} onClick={downloadPackage} type="button">
         {status === "working" ? "Preparing ZIP..." : "Download Final Response ZIP"}
       </button>
       {status === "error" ? <p className="mt-3 text-sm text-red-700">Unable to prepare the ZIP. Please try downloading again.</p> : null}

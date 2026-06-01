@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PortalShell } from "@/components/PortalShell";
 import { ConfirmationModal, SuccessMessage } from "@/components/WorkbenchControls";
@@ -20,6 +20,23 @@ export default function FinalResponseBuilderPage() {
   );
   const [instructions, setInstructions] = useState(state.instructions);
   const [confirming, setConfirming] = useState(false);
+
+  useEffect(() => {
+    if (!allTasksClosed) return;
+    const syncSelections = window.setTimeout(() => {
+      if (!selectedTasks.length) {
+        setSelectedTasks(state.selectedTaskIds.length ? state.selectedTaskIds : state.tasks.map((task) => task.id));
+      }
+      if (!selectedEvidence.length) {
+        setSelectedEvidence(
+          state.selectedEvidenceIds.length
+            ? state.selectedEvidenceIds
+            : taskArtifacts.filter((item) => item.recommended).map((item) => item.id),
+        );
+      }
+    }, 0);
+    return () => window.clearTimeout(syncSelections);
+  }, [allTasksClosed, selectedEvidence.length, selectedTasks.length, state.selectedEvidenceIds, state.selectedTaskIds, state.tasks]);
 
   function toggle(list: string[], item: string, setList: (items: string[]) => void) {
     setList(list.includes(item) ? list.filter((value) => value !== item) : [...list, item]);
@@ -48,10 +65,12 @@ export default function FinalResponseBuilderPage() {
               The final response starts after every task conversation has been reviewed and closed. Load the completed
               synthetic closeout to demonstrate document selection and drafting without manually progressing five tasks.
             </p>
-            <button className="workbench-primary mt-5" onClick={loadCloseout} type="button">Load Completed IDR Closeout Demo</button>
+            <button className="workbench-primary mt-5" data-tour-id="load-closeout-demo" onClick={loadCloseout} type="button">Load Completed IDR Closeout Demo</button>
           </section>
         ) : (
-          <SuccessMessage>All five IDR task conversations are closed. Select task outputs and attachments to send to Response Creator.</SuccessMessage>
+          <div data-tour-id="load-closeout-demo">
+            <SuccessMessage>All five IDR task conversations are closed. Select task outputs and attachments to send to Response Creator.</SuccessMessage>
+          </div>
         )}
         <section className="workbench-panel overflow-hidden">
           <div className="workbench-blue-header flex items-start justify-between">
@@ -62,7 +81,7 @@ export default function FinalResponseBuilderPage() {
             <StatusBadge status={allTasksClosed ? "Ready for Response" : "In Progress"} />
           </div>
           <div className="grid gap-6 p-7 2xl:grid-cols-[1.1fr_0.9fr]">
-            <div className="space-y-4">
+            <div className="space-y-4" data-tour-id="closed-task-selection">
               <h3 className="text-base font-semibold">Closed Task Conversations</h3>
               {state.tasks.map((task) => {
                 const record = taskCloseoutRecords.find((item) => item.taskId === task.id);
@@ -94,7 +113,7 @@ export default function FinalResponseBuilderPage() {
                 );
               })}
             </div>
-            <div className="space-y-4">
+            <div className="space-y-4" data-tour-id="evidence-selection">
               <h3 className="text-base font-semibold">Documents and Datasets to Include</h3>
               {taskArtifacts.map((document) => (
                 <label className="flex gap-3 rounded border border-slate-200 p-4 text-sm" key={document.id}>
@@ -121,6 +140,7 @@ export default function FinalResponseBuilderPage() {
             </label>
             <button
               className="workbench-primary mt-5 disabled:opacity-40"
+              data-tour-id="submit-response-creator"
               disabled={!allTasksClosed || !selectedTasks.length || !selectedEvidence.length}
               onClick={() => setConfirming(true)}
               type="button"

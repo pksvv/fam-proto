@@ -29,7 +29,7 @@ export default function ResponseStrategyPage() {
             </div>
             <StatusBadge status={state.strategySaved ? "Ready for Response" : "Pending Review"} />
           </div>
-          <div className="grid gap-6 p-7 lg:grid-cols-[1.25fr_0.75fr]">
+          <div className="grid gap-6 p-7 lg:grid-cols-[1.25fr_0.75fr]" data-tour-id="strategy-review">
             <div>
               <p className="mb-3 text-sm font-semibold">Recommended Response Strategy*</p>
               <textarea
@@ -50,7 +50,7 @@ export default function ResponseStrategyPage() {
             </div>
           </div>
           <div className="flex gap-3 border-t border-slate-200 bg-white px-7 py-5">
-            <button className="workbench-primary" onClick={() => setConfirming(true)} type="button">Save Strategy</button>
+            <button className="workbench-primary" data-tour-id="save-strategy" onClick={() => setConfirming(true)} type="button">Save Strategy</button>
             <button className="workbench-secondary" onClick={() => router.push("/review/document-request")} type="button">Back</button>
           </div>
         </section>

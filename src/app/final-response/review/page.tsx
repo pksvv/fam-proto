@@ -45,6 +45,7 @@ export default function FinalResponseReviewPage() {
                 <h3 className="text-sm font-semibold">{state.submitted ? "Approved Final Response Text" : "Response Creator Draft - edit during human review*"}</h3>
                 <textarea
                   className="workbench-textarea mt-3 min-h-[390px] leading-7 disabled:bg-slate-50"
+                  data-tour-id="final-draft-review"
                   disabled={state.submitted}
                   onChange={(event) => updateResponseDraft(event.target.value)}
                   value={state.responseDraft}

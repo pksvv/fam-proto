@@ -35,7 +35,7 @@ export default function DocumentRequestReviewPage() {
               <p className="mb-6 border-l-4 border-amber-400 bg-amber-50 p-4 text-sm text-slate-700">
                 Document request fields have been hydrated from the IDR. Review the question, due date, owners and expected evidence.
               </p>
-              <div className="grid gap-5 md:grid-cols-2 2xl:grid-cols-4">
+              <div className="grid gap-5 md:grid-cols-2 2xl:grid-cols-4" data-tour-id="document-review-fields">
                 <InputField label="Document Request ID" onChange={(value) => updateDocumentRequest("id", value)} value={state.documentRequest.id} />
                 <InputField label="Title" onChange={(value) => updateDocumentRequest("title", value)} required value={state.documentRequest.title} />
                 <InputField label="Due Date" onChange={(value) => updateDocumentRequest("dueDate", value)} required value={state.documentRequest.dueDate} />
@@ -57,7 +57,7 @@ export default function DocumentRequestReviewPage() {
                 />
               </label>
               <div className="mt-7 flex gap-3">
-                <button className="workbench-primary" onClick={() => setConfirming(true)} type="button">Create Document Request</button>
+                <button className="workbench-primary" data-tour-id="create-document-request" onClick={() => setConfirming(true)} type="button">Create Document Request</button>
                 <button className="workbench-secondary" onClick={() => router.push("/review/audit")} type="button">Back</button>
               </div>
             </div>

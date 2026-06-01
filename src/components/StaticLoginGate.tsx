@@ -16,8 +16,11 @@ export function StaticLoginGate({ children }: { children: ReactNode }) {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setIsAuthenticated(window.localStorage.getItem(LOGIN_STORAGE_KEY) === "true");
-    setIsReady(true);
+    const restoreLogin = window.setTimeout(() => {
+      setIsAuthenticated(window.localStorage.getItem(LOGIN_STORAGE_KEY) === "true");
+      setIsReady(true);
+    }, 0);
+    return () => window.clearTimeout(restoreLogin);
   }, []);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {

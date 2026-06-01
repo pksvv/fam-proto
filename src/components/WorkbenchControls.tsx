@@ -71,7 +71,7 @@ export function ConfirmationModal({
       <section aria-modal="true" className="workbench-modal" role="dialog">
         <h2>{title}</h2>
         <p>{message}</p>
-        <button className="workbench-primary w-full" onClick={onConfirm} type="button">
+        <button className="workbench-primary w-full" data-tour-id="confirm-modal-primary" onClick={onConfirm} type="button">
           {confirmLabel}
         </button>
         <button className="mt-2 text-sm text-slate-500" onClick={onClose} type="button">
@@ -105,4 +105,3 @@ export function Tabs({
 export function SuccessMessage({ children }: { children: ReactNode }) {
   return <p className="workbench-success">{children}</p>;
 }
-

@@ -34,7 +34,7 @@ export default function ParentAuditReviewPage() {
               <div className="mb-6 border-l-4 border-amber-400 bg-amber-50 p-4 text-sm text-slate-700">
                 AI extracted these draft values from the uploaded notice. Review and correct them before creation.
               </div>
-              <div className="grid gap-x-5 gap-y-5 md:grid-cols-2 2xl:grid-cols-4">
+              <div className="grid gap-x-5 gap-y-5 md:grid-cols-2 2xl:grid-cols-4" data-tour-id="audit-review-fields">
                 <InputField label="Audit Title" onChange={(value) => updateAudit("title", value)} required value={state.audit.title} />
                 <SelectField label="Audit Type" onChange={(value) => updateAudit("auditType", value)} options={["Direct Tax", "Indirect Tax"]} value={state.audit.auditType} />
                 <InputField label="Entity" onChange={(value) => updateAudit("entity", value)} required value={state.audit.entity} />
@@ -45,7 +45,7 @@ export default function ParentAuditReviewPage() {
                 <SelectField label="Owner" onChange={(value) => updateAudit("owner", value)} options={["AI.Tax.Copilot", "R Ali"]} value={state.audit.owner} />
               </div>
               <div className="mt-7 flex gap-3">
-                <button className="workbench-primary disabled:opacity-50" disabled={!state.extracted} onClick={() => setConfirming(true)} type="button">
+                <button className="workbench-primary disabled:opacity-50" data-tour-id="create-parent-audit" disabled={!state.extracted} onClick={() => setConfirming(true)} type="button">
                   Create Parent Audit Request
                 </button>
                 <button className="workbench-secondary" onClick={() => router.push("/intake")} type="button">Back</button>

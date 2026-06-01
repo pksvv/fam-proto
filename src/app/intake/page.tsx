@@ -113,7 +113,7 @@ export default function IntakePage() {
                     type="file"
                   />
                 </label>
-                <button className="workbench-secondary mt-7" onClick={loadSampleNotice} type="button">
+                <button className="workbench-secondary mt-7" data-tour-id="sample-idr" onClick={loadSampleNotice} type="button">
                   Use Sample IRS IDR
                 </button>
               </div>
@@ -130,7 +130,7 @@ export default function IntakePage() {
                     <iframe className="h-[540px] w-full" src={previewUrl} title="Uploaded PDF preview" />
                   ) : undefined}
               />
-              <button className="workbench-secondary mt-3" onClick={loadSampleNotice} type="button">
+                <button className="workbench-secondary mt-3" data-tour-id="sample-idr" onClick={loadSampleNotice} type="button">
                 Reset to sample notice
               </button>
             </div>
@@ -153,13 +153,13 @@ export default function IntakePage() {
               ))}
             </ol>
             {!state.extracted ? (
-              <button className="workbench-primary mt-6 w-full disabled:opacity-40" disabled={!state.notice || processing} onClick={extractContext} type="button">
+              <button className="workbench-primary mt-6 w-full disabled:opacity-40" data-tour-id="run-ocr" disabled={!state.notice || processing} onClick={extractContext} type="button">
                 {processing ? "Processing document..." : "Run OCR and Extract Context"}
               </button>
             ) : (
               <div className="mt-6 space-y-4">
                 <p className="workbench-success">Extraction complete. Human review is required before creating an audit.</p>
-                <Link className="workbench-primary block text-center" href="/review/audit">
+                <Link className="workbench-primary block text-center" data-tour-id="review-parent-audit" href="/review/audit">
                   New Audit - Review Extracted Fields
                 </Link>
               </div>

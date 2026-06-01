@@ -45,7 +45,7 @@ export default function DocumentRequestDetailPage() {
             ))}
           </div>
           <div className="border-t border-slate-200 px-7 py-5">
-            <button className="workbench-primary" onClick={() => openTask(state.tasks[0].id)} type="button">Open Task Response</button>
+            <button className="workbench-primary" data-tour-id="open-task" onClick={() => openTask(state.tasks[0].id)} type="button">Open Task Response</button>
           </div>
         </section>
       </div>

@@ -23,7 +23,7 @@ export default function HomePage() {
             <h1 className="mt-2 text-2xl font-semibold">My Actions</h1>
           </div>
           <div className="flex gap-3">
-            <Link className="workbench-primary" href="/intake">New Audit Submission</Link>
+            <Link className="workbench-primary" data-tour-id="new-audit-submission" href="/intake">New Audit Submission</Link>
             <button className="workbench-secondary" onClick={resetWorkflow} type="button">Reset Demo</button>
           </div>
         </header>
