@@ -41,6 +41,24 @@ npm run build
 
 ## GitHub Pages Deployment
 
+For **Deploy from branch** in GitHub Pages, generate the committed `/docs` export:
+
+```bash
+npm run export:docs
+```
+
+By default this builds for `/fam-prototype-guided`, so Pages should be configured as:
+
+- Source: **Deploy from a branch**
+- Branch: `main`
+- Folder: `/docs`
+
+If the internal Pages URL truly serves below `/vagur4/fam-prototype-guided`, override the base path before exporting:
+
+```bash
+NEXT_PUBLIC_BASE_PATH=/vagur4/fam-prototype-guided npm run export:docs
+```
+
 For a project site served at `https://<org>.github.io/<repository>/`, build with the repository path:
 
 ```bash

@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:pages": "NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH:-/fam-prototype-guided} next build",
+    "export:docs": "npm run build:pages && rm -rf docs && cp -R out docs && touch docs/.nojekyll",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -23,4 +25,3 @@
     "typescript": "^5.0.0"
   }
 }
-

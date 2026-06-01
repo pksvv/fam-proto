@@ -1,0 +1,5 @@
+DEMO DATA ONLY - INTERNAL WORKPAPER - NOT INCLUDED BY DEFAULT
+Sample ID,Income Stream,Synthetic Source Reference,Amount (USD),Purpose,Status
+S-001,Merchant discount revenue,INV-240218-SYN,825300,Illustrative transaction support,Available
+S-002,Gateway and processing fee revenue,INV-240731-SYN,148950,Illustrative transaction support,Available
+S-003,Implementation and other service fees,SOW-241015-SYN,92000,Illustrative service agreement,Available
