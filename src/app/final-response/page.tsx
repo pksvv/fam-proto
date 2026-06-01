@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PortalShell } from "@/components/PortalShell";
 import { ConfirmationModal, SuccessMessage } from "@/components/WorkbenchControls";
@@ -11,12 +11,17 @@ import { StatusBadge } from "@/components/ui";
 export default function FinalResponseBuilderPage() {
   const router = useRouter();
   const { state, prepareCloseoutDemo, setPackageSelection, generatePackage } = useWorkflow();
-  const allTasksClosed = state.tasks.length > 0 && state.tasks.every((task) => task.status === "Closed");
+  const visibleTaskIds = useMemo(() => state.tasks.map((task) => task.id), [state.tasks]);
+  const visibleArtifacts = useMemo(
+    () => taskArtifacts.filter((item) => visibleTaskIds.includes(item.taskId)),
+    [visibleTaskIds],
+  );
+  const allTasksClosed = state.tasks.length >= 2 && state.tasks.every((task) => task.status === "Closed");
   const [selectedTasks, setSelectedTasks] = useState<string[]>(
     state.selectedTaskIds.length ? state.selectedTaskIds : state.tasks.filter((task) => task.status === "Closed").map((task) => task.id),
   );
   const [selectedEvidence, setSelectedEvidence] = useState<string[]>(
-    state.selectedEvidenceIds.length ? state.selectedEvidenceIds : taskArtifacts.filter((item) => item.recommended).map((item) => item.id),
+    state.selectedEvidenceIds.length ? state.selectedEvidenceIds : visibleArtifacts.filter((item) => item.recommended).map((item) => item.id),
   );
   const [instructions, setInstructions] = useState(state.instructions);
   const [confirming, setConfirming] = useState(false);
@@ -31,12 +36,12 @@ export default function FinalResponseBuilderPage() {
         setSelectedEvidence(
           state.selectedEvidenceIds.length
             ? state.selectedEvidenceIds
-            : taskArtifacts.filter((item) => item.recommended).map((item) => item.id),
+            : visibleArtifacts.filter((item) => item.recommended).map((item) => item.id),
         );
       }
     }, 0);
     return () => window.clearTimeout(syncSelections);
-  }, [allTasksClosed, selectedEvidence.length, selectedTasks.length, state.selectedEvidenceIds, state.selectedTaskIds, state.tasks]);
+  }, [allTasksClosed, selectedEvidence.length, selectedTasks.length, state.selectedEvidenceIds, state.selectedTaskIds, state.tasks, visibleArtifacts]);
 
   function toggle(list: string[], item: string, setList: (items: string[]) => void) {
     setList(list.includes(item) ? list.filter((value) => value !== item) : [...list, item]);
@@ -45,7 +50,7 @@ export default function FinalResponseBuilderPage() {
   function loadCloseout() {
     prepareCloseoutDemo();
     setSelectedTasks(state.tasks.map((task) => task.id));
-    setSelectedEvidence(taskArtifacts.filter((item) => item.recommended).map((item) => item.id));
+    setSelectedEvidence(visibleArtifacts.filter((item) => item.recommended).map((item) => item.id));
   }
 
   return (
@@ -62,14 +67,14 @@ export default function FinalResponseBuilderPage() {
           <section className="workbench-panel p-6">
             <h2 className="text-lg font-semibold">Closed IDR task package required</h2>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-              The final response starts after every task conversation has been reviewed and closed. Load the completed
-              synthetic closeout to demonstrate document selection and drafting without manually progressing five tasks.
+              The final response starts after the visible demo task conversations have been reviewed and closed. Load the
+              synthetic closeout to demonstrate document selection and drafting without manually progressing every task.
             </p>
-            <button className="workbench-primary mt-5" data-tour-id="load-closeout-demo" onClick={loadCloseout} type="button">Load Completed IDR Closeout Demo</button>
+            <button className="workbench-primary mt-5" data-tour-id="load-closeout-demo" onClick={loadCloseout} type="button">Close Visible Demo Tasks</button>
           </section>
         ) : (
           <div data-tour-id="load-closeout-demo">
-            <SuccessMessage>All five IDR task conversations are closed. Select task outputs and attachments to send to Response Creator.</SuccessMessage>
+            <SuccessMessage>{state.tasks.length} visible IDR task conversations are closed. Select task outputs and attachments to send to Response Creator.</SuccessMessage>
           </div>
         )}
         <section className="workbench-panel overflow-hidden">
@@ -115,7 +120,7 @@ export default function FinalResponseBuilderPage() {
             </div>
             <div className="space-y-4" data-tour-id="evidence-selection">
               <h3 className="text-base font-semibold">Documents and Datasets to Include</h3>
-              {taskArtifacts.map((document) => (
+              {visibleArtifacts.map((document) => (
                 <label className="flex gap-3 rounded border border-slate-200 p-4 text-sm" key={document.id}>
                   <input
                     checked={selectedEvidence.includes(document.id)}
@@ -154,7 +159,7 @@ export default function FinalResponseBuilderPage() {
         message="Create a draft response from the selected closed conversations, documents and datasets? It will be routed to human review before finalisation."
         onClose={() => setConfirming(false)}
         onConfirm={() => {
-          const artifactTaskIds = taskArtifacts
+          const artifactTaskIds = visibleArtifacts
             .filter((artifact) => selectedEvidence.includes(artifact.id))
             .map((artifact) => artifact.taskId);
           setPackageSelection(Array.from(new Set([...selectedTasks, ...artifactTaskIds])), selectedEvidence, instructions);

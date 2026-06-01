@@ -8,13 +8,14 @@ import { useWorkflow } from "@/components/WorkflowContext";
 import { StatusBadge } from "@/components/ui";
 
 export default function TaskDetailPage() {
-  const { state, updateTask, addTaskFiles, addTaskNote } = useWorkflow();
+  const { state, updateTask, addTaskFiles, addTaskNote, prepareCloseoutDemo } = useWorkflow();
   const task = state.tasks.find((item) => item.id === state.activeTaskId) ?? state.tasks[0];
   const [tab, setTab] = useState("Notes");
   const [note, setNote] = useState("");
   const [confirmAction, setConfirmAction] = useState<"submit" | "close" | null>(null);
   const isClosed = task.status === "Closed";
   const allTasksClosed = state.tasks.every((item) => item.status === "Closed");
+  const openTaskCount = state.tasks.filter((item) => item.status !== "Closed").length;
 
   function handleFiles(files: FileList | null) {
     if (!files) return;
@@ -122,8 +123,11 @@ export default function TaskDetailPage() {
             ) : (
               <div className="flex flex-wrap items-center justify-end gap-3">
                 <span className="rounded border border-amber-300 bg-amber-50 px-5 py-3 text-sm text-amber-800">
-                  Close all IDR tasks before a live final response is created.
+                  {openTaskCount} visible task{openTaskCount === 1 ? "" : "s"} still open. You can finish them manually or close the demo set now.
                 </span>
+                <button className="workbench-secondary" data-tour-id="close-remaining-demo-tasks" onClick={prepareCloseoutDemo} type="button">
+                  Close Remaining Demo Tasks
+                </button>
                 <Link className="workbench-primary inline-block" data-tour-id="open-final-response" href="/final-response">Open Closeout Review Demo</Link>
               </div>
             )}

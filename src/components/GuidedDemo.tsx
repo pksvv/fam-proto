@@ -20,21 +20,21 @@ const tourSteps: TourStep[] = [
     path: "/",
     target: "new-audit-submission",
     title: "Start guided demo",
-    body: "New Audit Submission click karo. Yahin se sample IDR intake journey start hogi.",
+    body: "Click New Audit Submission to start the sample IDR intake journey.",
   },
   {
     id: "sample-idr",
     path: "/intake",
     target: "sample-idr",
     title: "Sample file drop",
-    body: "Use Sample IRS IDR click karo. Demo yeh assume karega ki sample notice receive hua hai.",
+    body: "Click Use Sample IRS IDR. The demo will treat it as a received sample notice.",
   },
   {
     id: "run-ocr",
     path: "/intake",
     target: "run-ocr",
     title: "Extract context",
-    body: "OCR aur context extraction run karo. Iske baad AI populated fields human review ke liye ready honge.",
+    body: "Run OCR and context extraction. The AI-populated fields will be ready for human review next.",
     waitForTarget: true,
   },
   {
@@ -42,7 +42,7 @@ const tourSteps: TourStep[] = [
     path: "/intake",
     target: "review-parent-audit",
     title: "New parent audit",
-    body: "Extracted fields ke saath new parent audit review par jao.",
+    body: "Continue to the new parent audit review with the extracted fields.",
     waitForTarget: true,
   },
   {
@@ -50,21 +50,21 @@ const tourSteps: TourStep[] = [
     path: "/review/audit",
     target: "audit-review-fields",
     title: "HITL audit review",
-    body: "AI extracted title, entity, market, dates aur owner verify/update karo.",
+    body: "Verify or update the AI-extracted title, entity, market, dates and owner.",
   },
   {
     id: "create-parent",
     path: "/review/audit",
     target: "create-parent-audit",
     title: "Create parent audit",
-    body: "Reviewed values ke saath parent audit request create karo.",
+    body: "Create the parent audit request with the reviewed values.",
   },
   {
     id: "confirm-parent",
     path: "/review/audit",
     target: "confirm-modal-primary",
     title: "Approve creation",
-    body: "Confirmation HITL approval hai. Confirm karke document request review par jao.",
+    body: "This confirmation is the HITL approval. Confirm to move to document request review.",
     waitForTarget: true,
   },
   {
@@ -72,21 +72,21 @@ const tourSteps: TourStep[] = [
     path: "/review/document-request",
     target: "document-review-fields",
     title: "HITL document request",
-    body: "IDR question, due date, owner, reviewer aur evidence list verify karo.",
+    body: "Verify the IDR question, due date, owner, reviewer and required evidence list.",
   },
   {
     id: "create-document",
     path: "/review/document-request",
     target: "create-document-request",
     title: "Create document request",
-    body: "Reviewed document request create karo.",
+    body: "Create the reviewed document request.",
   },
   {
     id: "confirm-document",
     path: "/review/document-request",
     target: "confirm-modal-primary",
     title: "Approve document request",
-    body: "Confirm karke response strategy review par jao.",
+    body: "Confirm to continue to response strategy review.",
     waitForTarget: true,
   },
   {
@@ -94,21 +94,21 @@ const tourSteps: TourStep[] = [
     path: "/response-strategy",
     target: "strategy-review",
     title: "Response strategy",
-    body: "Recommended response strategy, data sources, risk checks aur reviewer questions inspect karo.",
+    body: "Inspect the recommended response strategy, data sources, risk checks and reviewer questions.",
   },
   {
     id: "save-strategy",
     path: "/response-strategy",
     target: "save-strategy",
     title: "Approve strategy",
-    body: "Strategy save karo taaki task strategy agent child tasks propose kare.",
+    body: "Save the strategy so the task strategy agent can propose child tasks.",
   },
   {
     id: "confirm-strategy",
     path: "/response-strategy",
     target: "confirm-modal-primary",
     title: "Confirm strategy",
-    body: "HITL approval confirm karo aur task review page par jao.",
+    body: "Confirm the HITL approval and move to the task review page.",
     waitForTarget: true,
   },
   {
@@ -116,21 +116,21 @@ const tourSteps: TourStep[] = [
     path: "/task-strategy",
     target: "task-strategy-list",
     title: "Review generated tasks",
-    body: "Task title, assignee, team, due date aur dependencies update kar sakte ho.",
+    body: "Update task titles, assignees, teams, due dates and dependencies. Remove extra tasks if you want a shorter demo, but keep at least two.",
   },
   {
     id: "create-tasks",
     path: "/task-strategy",
     target: "create-tasks",
     title: "Create tasks",
-    body: "Reviewed task set create karo.",
+    body: "Create the reviewed task set.",
   },
   {
     id: "confirm-tasks",
     path: "/task-strategy",
     target: "confirm-modal-primary",
     title: "Approve tasks",
-    body: "Confirm karke document request task list par jao.",
+    body: "Confirm to open the document request task list.",
     waitForTarget: true,
   },
   {
@@ -138,35 +138,35 @@ const tourSteps: TourStep[] = [
     path: "/document-requests/IDR-2025-018",
     target: "open-task",
     title: "Open task",
-    body: "Task conversation open karo. Yahan response, docs, reviewer submit aur closeout hoga.",
+    body: "Open a task conversation. This is where response text, documents, reviewer submit and closeout happen.",
   },
   {
     id: "task-response",
     path: "/tasks/TA-201",
     target: "task-response",
     title: "Task response",
-    body: "Response description fill/update karo. Submit button enable karne ke liye text required hai.",
+    body: "Fill or update the response description. Text is required before the submit button is enabled.",
   },
   {
     id: "task-documents",
     path: "/tasks/TA-201",
     target: "task-documents-tab",
     title: "Supporting docs",
-    body: "Documents tab open karke task evidence attach/review karo.",
+    body: "Open the Documents tab to attach or review task evidence.",
   },
   {
     id: "submit-task",
     path: "/tasks/TA-201",
     target: "submit-task-review",
     title: "Submit to reviewer",
-    body: "Task response reviewer ko bhejo. Agar disabled hai to response text add karo.",
+    body: "Send the task response to the reviewer. If it is disabled, add response text first.",
   },
   {
     id: "confirm-submit-task",
     path: "/tasks/TA-201",
     target: "confirm-modal-primary",
     title: "Confirm submit",
-    body: "Reviewer submission confirm karo.",
+    body: "Confirm the reviewer submission.",
     waitForTarget: true,
   },
   {
@@ -174,7 +174,7 @@ const tourSteps: TourStep[] = [
     path: "/tasks/TA-201",
     target: "approve-close-task",
     title: "Close task",
-    body: "Reviewer approval ke baad task close karo.",
+    body: "Close the task after reviewer approval.",
     waitForTarget: true,
   },
   {
@@ -182,7 +182,15 @@ const tourSteps: TourStep[] = [
     path: "/tasks/TA-201",
     target: "confirm-modal-primary",
     title: "Confirm close",
-    body: "Task closeout confirm karo.",
+    body: "Confirm the task closeout.",
+    waitForTarget: true,
+  },
+  {
+    id: "close-remaining-demo-tasks",
+    path: "/tasks/TA-201",
+    target: "close-remaining-demo-tasks",
+    title: "Close remaining demo tasks",
+    body: "For a fast walkthrough, close the remaining visible demo tasks in one click. If you already closed them manually, use Next.",
     waitForTarget: true,
   },
   {
@@ -190,15 +198,15 @@ const tourSteps: TourStep[] = [
     path: "/tasks/TA-201",
     target: "open-final-response",
     title: "Move to final response",
-    body: "Tasks closeout ke baad final response builder open karo.",
+    body: "Open the final response builder after task closeout.",
     waitForTarget: true,
   },
   {
     id: "load-closeout",
     path: "/final-response",
     target: "load-closeout-demo",
-    title: "Close all demo tasks",
-    body: "Demo shortcut: all five tasks closed state load karo, phir tasks aur docs select honge.",
+    title: "Close visible demo tasks",
+    body: "Demo shortcut: close the visible task set, then select the task outputs and documents.",
     waitForTarget: true,
   },
   {
@@ -206,7 +214,7 @@ const tourSteps: TourStep[] = [
     path: "/final-response",
     target: "closed-task-selection",
     title: "Select closed tasks",
-    body: "Final response ke liye closed task conversations select/review karo.",
+    body: "Select or review the closed task conversations for the final response.",
     waitForTarget: true,
   },
   {
@@ -214,7 +222,7 @@ const tourSteps: TourStep[] = [
     path: "/final-response",
     target: "evidence-selection",
     title: "Select documents",
-    body: "Supporting documents aur datasets select karo jo package mein include honge.",
+    body: "Select the supporting documents and datasets to include in the package.",
     waitForTarget: true,
   },
   {
@@ -222,7 +230,7 @@ const tourSteps: TourStep[] = [
     path: "/final-response",
     target: "submit-response-creator",
     title: "Generate draft",
-    body: "Selected tasks/docs aur instructions Response Creator ko bhejo.",
+    body: "Send the selected tasks, documents and instructions to the Response Creator.",
     waitForTarget: true,
   },
   {
@@ -230,7 +238,7 @@ const tourSteps: TourStep[] = [
     path: "/final-response",
     target: "confirm-modal-primary",
     title: "Confirm generation",
-    body: "Draft response generate karne ke liye confirm karo.",
+    body: "Confirm to generate the draft response.",
     waitForTarget: true,
   },
   {
@@ -238,21 +246,21 @@ const tourSteps: TourStep[] = [
     path: "/final-response/review",
     target: "final-draft-review",
     title: "Review final draft",
-    body: "Generated response text edit/review karo aur schedules A/B/C verify karo.",
+    body: "Edit or review the generated response text and verify Schedules A, B and C.",
   },
   {
     id: "send-human-review",
     path: "/final-response/review",
     target: "send-human-review",
     title: "Send to HITL review",
-    body: "Draft ko human reviewer ke approval workflow mein bhejo.",
+    body: "Send the draft into the human reviewer approval workflow.",
   },
   {
     id: "confirm-human-review",
     path: "/final-response/review",
     target: "confirm-modal-primary",
     title: "Confirm routing",
-    body: "Human review routing confirm karo.",
+    body: "Confirm the human review routing.",
     waitForTarget: true,
   },
   {
@@ -260,7 +268,7 @@ const tourSteps: TourStep[] = [
     path: "/final-response/review",
     target: "approve-final-response",
     title: "Final approval",
-    body: "Evidence aur wording check ke baad final response approve karo.",
+    body: "Approve the final response after checking evidence and wording.",
     waitForTarget: true,
   },
   {
@@ -268,7 +276,7 @@ const tourSteps: TourStep[] = [
     path: "/final-response/review",
     target: "confirm-modal-primary",
     title: "Confirm final approval",
-    body: "Final HITL approval confirm karo. Status Ready for Submission ho jayega.",
+    body: "Confirm final HITL approval. The status will move to Ready for Submission.",
     waitForTarget: true,
   },
   {
@@ -276,7 +284,7 @@ const tourSteps: TourStep[] = [
     path: "/final-response/review",
     target: "download-final-package",
     title: "Download package",
-    body: "Final Response ZIP download karo. Ismein PDF, selected docs/datasets aur manifest included hai.",
+    body: "Download the Final Response ZIP with the PDF, selected documents, datasets and manifest.",
     waitForTarget: true,
   },
 ];
@@ -428,7 +436,7 @@ export function GuidedDemo() {
               Step {stepIndex + 1} of {tourSteps.length}
             </p>
             <h2>{step.title}</h2>
-            <p>{missingWaitTarget ? "Is step ka button action ke baad appear hoga. Current screen action complete karo." : step.body}</p>
+            <p>{missingWaitTarget ? "This control appears after the current screen action is complete." : step.body}</p>
             <div className="mt-4 flex items-center justify-between gap-2">
               <button className="guided-demo-link" disabled={stepIndex === 0} onClick={() => move(-1)} type="button">
                 Back

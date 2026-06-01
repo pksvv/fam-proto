@@ -71,6 +71,7 @@ type WorkflowContextValue = {
   updateStrategy: (value: string) => void;
   saveStrategy: () => void;
   updateTask: (id: string, updates: Partial<InteractiveTask>) => void;
+  deleteTask: (id: string) => void;
   selectTask: (id: string) => void;
   createTasks: () => void;
   prepareCloseoutDemo: () => void;
@@ -137,10 +138,12 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
             ...saved,
             audit: { ...initial.audit, ...saved.audit },
             documentRequest: { ...initial.documentRequest, ...saved.documentRequest },
-            tasks: initial.tasks.map((task, index) => ({
-              ...task,
-              ...(saved.tasks?.[index] ?? {}),
-            })),
+            tasks: saved.tasks?.length
+              ? saved.tasks.map((savedTask) => ({
+                  ...(initial.tasks.find((task) => task.id === savedTask.id) ?? initial.tasks[0]),
+                  ...savedTask,
+                }))
+              : initial.tasks,
           });
           setRestored(true);
         }, 0);
@@ -176,6 +179,26 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
     }));
   }
 
+  function deleteTask(id: string) {
+    setState((current) => {
+      if (current.tasks.length <= 2) return current;
+
+      const tasks = current.tasks.filter((task) => task.id !== id);
+      const activeTaskId = current.activeTaskId === id ? tasks[0]?.id ?? current.activeTaskId : current.activeTaskId;
+
+      return {
+        ...current,
+        activeTaskId,
+        tasks,
+        selectedTaskIds: current.selectedTaskIds.filter((taskId) => taskId !== id),
+        selectedEvidenceIds: current.selectedEvidenceIds.filter((evidenceId) => {
+          const artifact = taskArtifacts.find((item) => item.id === evidenceId);
+          return artifact ? artifact.taskId !== id : true;
+        }),
+      };
+    });
+  }
+
   const value: WorkflowContextValue = {
     state,
     setNotice: (notice) => setState((current) => ({ ...current, notice, extracted: false })),
@@ -204,6 +227,7 @@ export function WorkflowProvider({ children }: { children: ReactNode }) {
     updateStrategy: (strategy) => setState((current) => ({ ...current, strategy })),
     saveStrategy: () => setState((current) => ({ ...current, strategySaved: true })),
     updateTask,
+    deleteTask,
     selectTask: (activeTaskId) => setState((current) => ({ ...current, activeTaskId })),
     createTasks: () =>
       setState((current) => ({

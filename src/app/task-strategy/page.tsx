@@ -9,8 +9,9 @@ import { StatusBadge } from "@/components/ui";
 
 export default function TaskStrategyPage() {
   const router = useRouter();
-  const { state, updateTask, createTasks } = useWorkflow();
+  const { state, updateTask, deleteTask, createTasks } = useWorkflow();
   const [confirming, setConfirming] = useState(false);
+  const canRemoveTasks = state.tasks.length > 2;
 
   return (
     <PortalShell copilotKey="tasks" copilotTitle="Task strategy agent" currentStep="tasks">
@@ -35,9 +36,20 @@ export default function TaskStrategyPage() {
             <div className="space-y-4" data-tour-id="task-strategy-list">
               {state.tasks.map((task) => (
                 <article className="rounded border border-slate-200 bg-slate-50/40 p-4" key={task.id}>
-                  <div className="mb-3 flex items-center justify-between">
+                  <div className="mb-3 flex items-center justify-between gap-3">
                     <p className="text-sm font-semibold text-brand">{task.id}</p>
-                    <span className="text-xs text-slate-500">{task.confidence}% recommendation confidence</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs text-slate-500">{task.confidence}% recommendation confidence</span>
+                      <button
+                        className="rounded border border-red-200 bg-white px-3 py-1.5 text-xs font-semibold text-red-700 disabled:cursor-not-allowed disabled:opacity-40"
+                        disabled={!canRemoveTasks}
+                        onClick={() => deleteTask(task.id)}
+                        title={canRemoveTasks ? "Remove this task from the demo flow" : "Keep at least two tasks in the demo"}
+                        type="button"
+                      >
+                        Remove from demo
+                      </button>
+                    </div>
                   </div>
                   <div className="grid gap-3 lg:grid-cols-[2fr_1fr_1.15fr_1fr_1.1fr]">
                     <TableInput label="Title" onChange={(value) => updateTask(task.id, { title: value })} value={task.title} />
@@ -58,7 +70,7 @@ export default function TaskStrategyPage() {
         </section>
       </div>
       <ConfirmationModal
-        message="Create these five reviewer-edited tasks beneath the document request?"
+        message={`Create these ${state.tasks.length} reviewer-edited tasks beneath the document request?`}
         onClose={() => setConfirming(false)}
         onConfirm={() => {
           createTasks();
