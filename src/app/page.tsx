@@ -75,7 +75,7 @@ export default function HomePage() {
             </table>
           </div>
         </section>
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <Link className="workbench-panel p-5" href="/intake">
             <p className="text-xs font-semibold uppercase text-slate-500">New Audit Submission</p>
             <p className="mt-3 text-lg font-semibold text-brand">Upload an IDR notice</p>
@@ -90,6 +90,11 @@ export default function HomePage() {
             <p className="text-xs font-semibold uppercase text-slate-500">Audit Tracker</p>
             <p className="mt-3 text-lg font-semibold">Portfolio overview</p>
             <p className="mt-2 text-sm text-slate-600">Review due dates and actions.</p>
+          </Link>
+          <Link className="workbench-panel border-blue-200 p-5" href="/semantic-demo">
+            <p className="text-xs font-semibold uppercase text-brand">Leadership Demo</p>
+            <p className="mt-3 text-lg font-semibold text-brand">Explore Semantic Data Layer</p>
+            <p className="mt-2 text-sm text-slate-600">See how connected evidence supports a defensible response.</p>
           </Link>
         </div>
       </div>

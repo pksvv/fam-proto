@@ -405,6 +405,8 @@ export function GuidedDemo() {
       }
     : { top: 86, right: 24 };
 
+  if (pathname === "/semantic-demo" || pathname === "/semantic-demo/") return null;
+
   return (
     <>
       <div className="fixed bottom-5 right-5 z-[95] flex gap-2">

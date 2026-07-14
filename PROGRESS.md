@@ -2,7 +2,7 @@
 
 ## Current Milestone
 
-Static prototype login and naming safety update.
+Interactive leadership-ready Semantic Data Layer demo.
 
 ## Current Implementation Status
 
@@ -19,39 +19,53 @@ Static prototype login and naming safety update.
 - Browser verification passed on May 28 2026: wrong credentials show an inline error, correct credentials navigate to the home portal, and the portal header shows `AI.Tax.Copilot`.
 - Milestone implementation committed as `bf28e9c`.
 - Pushed `main` to `origin` through `df93bf2` on May 28 2026.
+- Added a standalone `/semantic-demo/` leadership page using static synthetic data only.
+- Added a selectable six-step audit journey, a six-card semantic connection flow, one practical evidence example, an expandable prior-audit match, and an expandable final-response evidence trace.
+- Made the distinction between a navigation workpaper and curated Evidence Object explicit.
+- Added the `Northstar Payments Services LLC` synthetic scenario without changing the existing workflow data or behavior.
+- Added an `Explore Semantic Data Layer` entry point to the home page.
+- Kept the existing guided workflow control off the standalone semantic demo route.
+- Focused lint passed for all files changed in this milestone on July 14 2026.
+- `npm run build` passed on July 14 2026 with 15 static App Router routes generated.
+- Desktop browser verification passed on July 14 2026: journey selection, prior-audit disclosure, evidence-trace disclosure, home entry point, layout width, and key copy were checked.
+- Enhanced the six-step journey with 3.5-second autoplay, manual pause/resume, reset behavior, active-step elevation, progress indication, and restrained arrow motion.
+- Connected each journey step to a matching semantic-flow card with progressive left-to-right highlighting.
+- Made all four supporting items selectable with an in-place evidence-role preview.
+- Added AI Proposed Draft and Human Reviewed Response states with `Review Required` and `Approved` status treatments.
+- Replaced the basic evidence disclosure with a progressive Claim → Evidence Object → Sources → Controls trace.
+- Added a five-section presentation walkthrough with smooth scrolling and current-section focus.
+- Added reduced-motion CSS behavior without adding an animation or graph dependency.
+- Focused TypeScript/React lint passed on July 14 2026 after the interaction enhancement.
+- `npm run build` passed on July 14 2026 after the interaction enhancement; all 15 routes remain statically generated.
+- Desktop browser verification passed for autoplay, pause/resume, manual selection, evidence preview, response toggle, evidence trace, walkthrough, reset behavior, and horizontal layout containment.
 
 ## Files Changed
 
 - `PROGRESS.md`
-- `README.md`
-- `public/downloads/DEMO_Adjustments_and_Exclusions_Memo.pdf`
-- `public/downloads/DEMO_IDR_Closeout_Signoff.pdf`
-- `scripts/generate-demo-package-assets.mjs`
-- `src/app/layout.tsx`
-- `src/app/review/audit/page.tsx`
-- `src/app/review/document-request/page.tsx`
-- `src/app/task-strategy/page.tsx`
-- `src/app/tracker/page.tsx`
-- `src/components/PortalShell.tsx`
-- `src/components/StaticLoginGate.tsx`
-- `src/components/WorkflowContext.tsx`
-- `src/data/mockData.ts`
+- `src/app/globals.css`
+- `src/app/page.tsx`
+- `src/app/semantic-demo/page.tsx`
+- `src/components/GuidedDemo.tsx`
+- `src/data/semanticDemoData.ts`
 
 ## Routes/Screens Completed
 
 - Existing static prototype routes remain completed from prior milestones.
 - Login gate screen completed as a client-only static gate before the portal.
 - Home portal route remains the post-login destination.
+- Semantic Data Layer leadership demo completed at `/semantic-demo/`.
 
 ## Components Completed
 
 - Existing portal/workflow components remain completed from prior milestones.
 - `StaticLoginGate` completed.
 - `PortalShell` header identity updated to `AI.Tax.Copilot`.
+- Semantic demo reuses the existing `PortalShell`, workbench panels, blue headers, buttons, and enterprise visual language.
+- Semantic demo motion and presentation interactions remain local to `/semantic-demo/` and do not change workflow state.
 
 ## Last Successful npm run build Result
 
-- `npm run build` passed on May 28 2026 with 14 static App Router routes generated.
+- `npm run build` passed on July 14 2026 with 15 static App Router routes generated, including `/semantic-demo/`.
 
 ## Last Commit Hash
 
@@ -67,10 +81,11 @@ Static prototype login and naming safety update.
 - No API routes, middleware, server actions, database, environment variables, or backend authentication were added.
 - Final `R Kaus` scan only finds historical notes in this progress file.
 - Dev browser verification showed the existing missing `/favicon.ico` 404; not related to the login workflow.
+- Repository-wide `npm run lint` still scans the committed generated `docs/` export and reports errors in minified JavaScript; focused lint for the source files changed in this milestone passes.
 
 ## Exact Next Step If Interrupted
 
-Open `PROGRESS.md`, run `git status`, confirm the working tree is clean, then start the next requested milestone from this completed static-login baseline.
+Open `/semantic-demo/` from the home-page card and present the five-section leadership walkthrough.
 
 ## Historical Guardrails
 

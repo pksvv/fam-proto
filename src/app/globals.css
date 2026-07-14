@@ -264,3 +264,169 @@ a {
 .guided-demo-next:disabled {
   opacity: 0.4;
 }
+
+.semantic-section {
+  scroll-margin-top: 28px;
+  transition:
+    box-shadow 360ms ease,
+    transform 360ms ease;
+}
+
+.semantic-section-focus {
+  box-shadow:
+    0 0 0 3px rgba(23, 79, 174, 0.2),
+    0 14px 32px rgba(18, 35, 65, 0.12);
+  transform: translateY(-2px);
+}
+
+.semantic-step-card,
+.semantic-connection-card,
+.semantic-support-button {
+  transition:
+    border-color 300ms ease,
+    background-color 300ms ease,
+    box-shadow 300ms ease,
+    color 300ms ease,
+    opacity 300ms ease,
+    transform 300ms ease;
+}
+
+.semantic-step-card.is-active {
+  box-shadow:
+    0 0 0 3px rgba(23, 79, 174, 0.1),
+    0 10px 22px rgba(23, 79, 174, 0.12);
+  transform: translateY(-4px);
+}
+
+.semantic-arrow,
+.semantic-connection-arrow {
+  transition:
+    color 300ms ease,
+    transform 300ms ease;
+}
+
+.semantic-arrow.is-complete,
+.semantic-connection-arrow.is-connected {
+  color: #174fae;
+}
+
+.semantic-arrow.is-active,
+.semantic-connection-arrow.is-active {
+  color: #174fae;
+  animation: semantic-arrow-pulse 1.8s ease-in-out infinite;
+}
+
+.semantic-connection-card {
+  opacity: 0.68;
+}
+
+.semantic-connection-card.is-connected {
+  border-color: #93c5fd;
+  background: #eff6ff;
+  opacity: 1;
+}
+
+.semantic-connection-card.is-active {
+  border-color: #174fae;
+  box-shadow:
+    0 0 0 3px rgba(23, 79, 174, 0.1),
+    0 10px 22px rgba(23, 79, 174, 0.12);
+  transform: translateY(-3px);
+}
+
+.semantic-support-button.is-active {
+  box-shadow: 0 5px 14px rgba(23, 79, 174, 0.1);
+  transform: translateX(3px);
+}
+
+.semantic-evidence-preview,
+.semantic-response-card {
+  animation: semantic-reveal 400ms ease both;
+}
+
+.semantic-trace-stage {
+  animation: semantic-reveal 400ms ease both;
+}
+
+.trace-delay-1 {
+  animation-delay: 40ms;
+}
+
+.trace-delay-2 {
+  animation-delay: 140ms;
+}
+
+.trace-delay-3 {
+  animation-delay: 240ms;
+}
+
+.trace-delay-4 {
+  animation-delay: 340ms;
+}
+
+.semantic-key-value {
+  display: inline-block;
+  border-radius: 5px;
+  background: #dbeafe;
+  padding: 2px 6px;
+  color: #174fae;
+}
+
+.bg-slate-900 .semantic-key-value {
+  background: rgba(255, 255, 255, 0.14);
+  color: white;
+}
+
+.semantic-live-dot {
+  animation: semantic-live-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes semantic-arrow-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+}
+
+@keyframes semantic-live-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.22);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0);
+  }
+}
+
+@keyframes semantic-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .semantic-section,
+  .semantic-step-card,
+  .semantic-connection-card,
+  .semantic-support-button,
+  .semantic-arrow,
+  .semantic-connection-arrow,
+  .semantic-evidence-preview,
+  .semantic-response-card,
+  .semantic-trace-stage,
+  .semantic-live-dot {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
